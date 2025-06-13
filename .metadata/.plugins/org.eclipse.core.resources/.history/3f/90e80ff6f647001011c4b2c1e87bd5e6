@@ -1,0 +1,6 @@
+package wg.eurekaserver.securityConfig;
+
+@EnableWebSecurity
+public class SecurityConfig{
+
+}

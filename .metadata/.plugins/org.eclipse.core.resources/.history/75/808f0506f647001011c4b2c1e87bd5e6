@@ -1,0 +1,6 @@
+package wg.eurekaserver.securityConfig;
+
+
+public class SecurityConfig extends WebSecurityConfigurerAdapter{
+
+}
