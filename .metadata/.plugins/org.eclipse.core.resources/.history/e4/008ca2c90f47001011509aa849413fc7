@@ -1,0 +1,25 @@
+package wg.msextrusora.services;
+
+import org.springframework.http.ResponseEntity;
+import org.springframework.stereotype.Service;
+
+import lombok.RequiredArgsConstructor;
+import wg.msextrusora.domain.Pedido;
+import wg.msextrusora.repositories.PedidoFeign;
+
+@Service
+@RequiredArgsConstructor
+public class PedidoService {
+	
+	private final PedidoFeign feign;
+	
+	
+	public Pedido obterPedido(Long id) {
+		
+		ResponseEntity<Pedido> pedido = feign.findByIdPedido(id);
+		
+		return pedido.getBody();
+		
+	}
+
+}

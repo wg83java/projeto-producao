@@ -1,0 +1,51 @@
+package wg.mstorcedeira.consumer;
+
+import org.springframework.amqp.rabbit.annotation.RabbitListener;
+import org.springframework.messaging.handler.annotation.Payload;
+import org.springframework.stereotype.Component;
+
+import com.fasterxml.jackson.databind.ObjectMapper;
+
+import lombok.RequiredArgsConstructor;
+import wg.mstorcedeira.domain.CBAbstract;
+import wg.mstorcedeira.domain.ListCb;
+import wg.mstorcedeira.domain.OrdemProcessoProducao;
+import wg.mstorcedeira.domain.PedidoLiberadoParaProcesso;
+import wg.mstorcedeira.services.OrdemProcessoProducaoService;
+
+@Component
+@RequiredArgsConstructor
+public class TorcedeiraConsumer {
+	
+	private final OrdemProcessoProducaoService ordemService;
+	
+	@RabbitListener(queues = "queue-torcedeiras")
+	public void emissaoPedido(@Payload String payload) {
+		
+		try {
+			
+			var objectMapper = new ObjectMapper();
+			
+			PedidoLiberadoParaProcesso processo = objectMapper.readValue(payload, PedidoLiberadoParaProcesso.class);
+			
+			ListCb.iniciar();
+			CBAbstract cb = ListCb.getInstance(processo.getName());
+			cb.inserirQuantidadeTotalPedido(processo.getQuantidade());
+			
+			var ordem = new OrdemProcessoProducao();
+			ordem.setName(cb.getName());
+			ordem.setMaquina(cb.getMaquina());
+			ordem.setFormacao(cb.getFormacao());
+			ordem.setDiametroCorda(cb.getDiametroCorda());
+			ordem.setDirecao(cb.getDirecao());
+			ordem.setCapacidadeMAximaBobina(cb.getCapacidadeMAximaBobina());
+			ordem.setQuantidade(cb.getQuantidade());
+			
+			ordemService.save(ordem);
+			
+		}catch(Exception e) {
+			e.printStackTrace();
+		}
+	}
+
+}

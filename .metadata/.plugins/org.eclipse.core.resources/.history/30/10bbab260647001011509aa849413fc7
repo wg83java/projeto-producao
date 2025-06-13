@@ -1,0 +1,8 @@
+package wg.msextrusora.repositories;
+
+public interface PedidoFeign {
+	
+	
+	
+
+}

@@ -1,0 +1,25 @@
+package wg.mspedido.dtos;
+
+import java.math.BigDecimal;
+
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+import wg.mspedido.domain.Produto;
+import wg.mspedido.enums.Tipo;
+
+@Data
+@AllArgsConstructor
+@NoArgsConstructor
+public class ProdutoDto {
+	
+	private String name;
+	
+	
+	
+	public Produto toModel() {
+		
+		return new Produto(name);
+	}
+
+}

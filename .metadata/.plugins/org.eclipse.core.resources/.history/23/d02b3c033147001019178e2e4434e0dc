@@ -1,0 +1,102 @@
+package wg.msextrusora.domain;
+
+import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.OneToMany;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
+@Entity
+
+@AllArgsConstructor
+@NoArgsConstructor
+public class OrdemProcessoProducao implements Serializable{
+	
+	private static final long serialVersionUID = 1L;
+	
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	private Long id;
+	private String maquina;
+	private String name;
+	private String formacao;
+	private String diametro;
+	private Integer quantidadeTotal;
+	private Integer quantidadeBobina;
+	
+	
+	@OneToMany (mappedBy = "ordem")
+	private List<Pedido> pedidos = new ArrayList<>();
+	
+	public void addPedido(Pedido pedido) {
+		pedidos.add(pedido);
+	}
+	
+	@JsonIgnore
+	public void setPedidos(List<Pedido> pedido) {
+		this.pedidos = pedido;
+	}
+	
+	public List<Pedido> getPedidos(){
+		return pedidos;
+	}
+
+	public String getMaquina() {
+		return maquina;
+	}
+
+	public void setMaquina(String maquina) {
+		this.maquina = maquina;
+	}
+
+	public String getName() {
+		return name;
+	}
+
+	public void setName(String name) {
+		this.name = name;
+	}
+
+	public String getFormacao() {
+		return formacao;
+	}
+
+	public void setFormacao(String formacao) {
+		this.formacao = formacao;
+	}
+
+	public String getDiametro() {
+		return diametro;
+	}
+
+	public void setDiametro(String diametro) {
+		this.diametro = diametro;
+	}
+
+	public Integer getQuantidadeTotal() {
+		return quantidadeTotal;
+	}
+
+	public void setQuantidadeTotal(Integer quantidadeTotal) {
+		this.quantidadeTotal = quantidadeTotal;
+	}
+
+	public Integer getQuantidadeBobina() {
+		return quantidadeBobina;
+	}
+
+	public void setQuantidadeBobina(Integer quantidadeBobina) {
+		this.quantidadeBobina = quantidadeBobina;
+	}
+
+}
+

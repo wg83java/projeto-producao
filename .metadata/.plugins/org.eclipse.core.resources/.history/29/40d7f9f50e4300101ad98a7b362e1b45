@@ -1,0 +1,41 @@
+package wg.msbuncher;
+
+import org.springframework.amqp.rabbit.annotation.RabbitListener;
+import org.springframework.messaging.handler.annotation.Payload;
+import org.springframework.stereotype.Component;
+
+import com.fasterxml.jackson.databind.ObjectMapper;
+
+import wg.msbuncher.domain.ListCb;
+import wg.msbuncher.domain.PedidoLiberadoParaProcesso;
+
+@Component
+public class BuncherConsumer {
+	
+	
+	@RabbitListener(queues = "queue-bunchers")
+	public void emissaoPedido(@Payload String payload) {
+		
+		try {
+			
+			var objectMapper = new ObjectMapper();
+			
+			PedidoLiberadoParaProcesso processo = objectMapper.readValue(payload, PedidoLiberadoParaProcesso.class);
+			
+			ListCb cb = new ListCb();
+			cb.iniciar();
+			cb.getInstance(processo.getName());
+			
+			System.out.println();
+			
+			
+			
+			System.out.println();
+			
+		}catch(Exception e) {
+			e.printStackTrace();
+		}
+		
+	}
+
+}

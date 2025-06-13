@@ -1,0 +1,30 @@
+package wg.mstorcedeira.services;
+
+import java.util.List;
+
+import org.springframework.stereotype.Service;
+
+import jakarta.transaction.Transactional;
+import lombok.RequiredArgsConstructor;
+import wg.mstorcedeira.domain.OrdemProcessoProducao;
+import wg.mstorcedeira.repositories.OrdemProcessoProducaoRepository;
+
+@Service
+@RequiredArgsConstructor
+public class OrdemProcessoProducaoService {
+	
+	private final OrdemProcessoProducaoRepository ordemRepository;
+	
+	
+	public List<OrdemProcessoProducao> findAll(){
+		
+		return ordemRepository.findAll();
+	}
+	
+	@Transactional
+	public OrdemProcessoProducao saveOrdemProcessoProducao(OrdemProcessoProducao ordemProcesso) {
+		
+		return ordemRepository.save(ordemProcesso);
+	}
+
+}

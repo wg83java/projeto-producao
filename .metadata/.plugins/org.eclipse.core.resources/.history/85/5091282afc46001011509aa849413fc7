@@ -1,0 +1,5 @@
+package wg.msextrusora.domain;
+
+public abstract class CBAbstract {
+
+}

@@ -1,0 +1,56 @@
+package wg.mspedido.domain;
+
+import java.io.Serializable;
+import java.time.LocalDate;
+import java.util.List;
+
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.ManyToMany;
+import jakarta.persistence.OneToMany;
+import jakarta.persistence.OneToOne;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+import wg.mspedido.enums.Tipo;
+
+@Entity
+@NoArgsConstructor
+@AllArgsConstructor
+@Data
+public class Pedido implements Serializable{
+	
+	private static final long serialVersionUID = 1L;
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	private Long id;
+	@OneToOne
+	private Produto produto;
+	private LocalDate data;
+	private Tipo tipo;
+	private String cor;
+	private Integer quantidade;
+	
+	public Pedido(LocalDate data,Produto produto,Tipo tipo,String cor,Integer quantidade) {
+		this.data = LocalDate.now();
+		this.produto = produto;
+		this.tipo = tipo;
+		this.cor = cor;
+		this.quantidade = quantidade;
+		
+	
+		
+
+	}
+	
+	public OrdemPedido converteParaOrdemPedido(Pedido pedido) {
+		
+		return new OrdemPedido(pedido.getId(),pedido.getProduto());
+	}
+	
+	
+	
+
+}

@@ -1,0 +1,23 @@
+package wg.msbuncher.services;
+
+import java.util.List;
+
+import org.springframework.stereotype.Service;
+
+import lombok.RequiredArgsConstructor;
+import wg.msbuncher.domain.OrdemProcessoProducaoPedido;
+import wg.msbuncher.repositories.OrdemProcessoProducaoPedidoRepository;
+
+@Service
+@RequiredArgsConstructor
+public class OrdemProcessoProducaoPedidoService {
+	
+	private final OrdemProcessoProducaoPedidoRepository ordemProcessoRepository;
+	
+	
+	public List<OrdemProcessoProducaoPedido> consultarOrdemPedido(){
+		
+		return ordemProcessoRepository.findAll();
+	}
+
+}

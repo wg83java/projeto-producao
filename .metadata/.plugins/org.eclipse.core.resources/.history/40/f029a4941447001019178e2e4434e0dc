@@ -1,0 +1,55 @@
+package wg.msextrusora.services;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import org.springframework.http.ResponseEntity;
+import org.springframework.stereotype.Service;
+
+import lombok.RequiredArgsConstructor;
+import wg.msextrusora.domain.Pedido;
+import wg.msextrusora.repositories.PedidoFeign;
+
+@Service
+@RequiredArgsConstructor
+public class PedidoService {
+	
+	private final PedidoFeign feign;
+	
+	
+	public Pedido obterPedido(Long id) {
+		
+		ResponseEntity<Pedido> pedido = feign.findByIdPedido(id);
+		
+		return pedido.getBody();
+		
+	}
+	
+	public List<Pedido> separarPedido(List<Pedido> pedidos){
+		
+		String[] cores = {"verde","amarelo","azul","preto"};
+		List<Pedido> p = new ArrayList<>();
+		Integer quantidade = 0;
+		
+		
+		for(String cor : cores) {
+			for(Pedido pedido : pedidos) {
+				if(cor.equals(pedido.getCor())) {
+					quantidade += pedido.getQuantidade();
+				
+					
+				}
+			}
+			Pedido p1 = new Pedido();
+			p1.setCor(cor);
+			p1.setQuantidade(quantidade);
+			p.add(p1);
+			
+		}
+		
+		return p;
+		
+	}
+
+
+}

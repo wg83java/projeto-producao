@@ -1,0 +1,5 @@
+package wg.mstorcedeira.repositories;
+
+public interface OrdemProcessoProducaoRepository {
+
+}

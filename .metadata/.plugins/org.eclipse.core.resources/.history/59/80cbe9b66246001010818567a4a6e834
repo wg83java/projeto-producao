@@ -1,0 +1,5 @@
+package wg.msbuncher.repositories;
+
+public interface OrdemProcessoProducao {
+
+}

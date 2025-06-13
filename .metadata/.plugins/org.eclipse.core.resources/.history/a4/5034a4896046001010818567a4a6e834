@@ -1,0 +1,9 @@
+package wg.msbuncher.repositories;
+
+import org.springframework.data.jpa.repository.JpaRepository;
+
+import wg.msbuncher.domain.CB50mm;
+
+public interface CB50mmRepository extends JpaRepository<CB50mm, Long>{
+
+}

@@ -1,0 +1,10 @@
+package wg.msbuncher.domain;
+
+public abstract class CBAbstract {
+	
+	public String imprimirOrdem() {
+		return null ;
+		
+	};
+
+}

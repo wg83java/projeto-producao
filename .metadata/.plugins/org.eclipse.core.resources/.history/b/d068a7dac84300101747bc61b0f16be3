@@ -1,0 +1,5 @@
+package wg.msbuncher.resources;
+
+public class OrdemProcessoProducaoPedidoResource {
+
+}

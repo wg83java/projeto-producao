@@ -1,0 +1,110 @@
+package wg.mspedido.resources;
+
+import java.util.List;
+
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
+
+import com.fasterxml.jackson.core.JsonProcessingException;
+
+import lombok.RequiredArgsConstructor;
+import wg.mspedido.domain.OrdemPedido;
+import wg.mspedido.domain.Pedido;
+import wg.mspedido.domain.Produto;
+import wg.mspedido.dtos.PedidoDto;
+import wg.mspedido.dtos.ProdutoDto;
+import wg.mspedido.publications.PedidoPublish;
+import wg.mspedido.services.PedidoService;
+import wg.mspedido.services.ProdutoService;
+
+@RestController
+@RequiredArgsConstructor
+@RequestMapping(value = "/pedidos")
+public class PedidoResource {
+	
+	private final PedidoService pedidoService;
+	private final ProdutoService produtoService;
+	private final PedidoPublish publicarPedido;
+	
+	@GetMapping
+	public String status() {
+		return "GetMapping pedidos Ok";
+	}
+	
+	@GetMapping(value = "consultar")
+	public ResponseEntity<List<Pedido>> findAll(){
+		
+		List<Pedido> pedidos = pedidoService.findAll();
+		
+		return ResponseEntity.ok(pedidos);
+	}
+	
+	@GetMapping(params = "idpedido")
+	public ResponseEntity<Pedido> findByIdPedido(@RequestParam("idpedido") Long idpedido){
+		
+		Pedido pedido = pedidoService.findByIdPedido(idpedido);
+		
+		return ResponseEntity.ok().body(pedido);
+	}
+	
+	@PostMapping
+	public ResponseEntity save(@RequestBody PedidoDto pedidoDto) throws JsonProcessingException{
+		
+		Pedido pedido = pedidoDto.toModel();
+		Produto produto = produtoService.findByIdProduto(pedido.getIdproduto());
+		
+		pedidoService.savePedido(pedido);
+		
+		var ordem = new OrdemPedido();
+		ordem.setIdpedido(pedido.getId());
+		ordem.setProduto(produto.getName());
+		ordem.setQuantidade(pedido.getQuantidade());
+		
+		publicarPedido.publicarPedido(ordem);
+		
+		return ResponseEntity.status(HttpStatus.CREATED).build();
+		
+		
+	}
+	
+	@PostMapping(value = "produtos")
+	public ResponseEntity saveProduto(@RequestBody ProdutoDto produtoDto) {
+	
+		Produto produto = produtoDto.toModel();
+		
+		produtoService.saveProduto(produto);
+		
+		return ResponseEntity.status(HttpStatus.CREATED).build();
+	}
+	
+	@GetMapping(value = "consultar-produtos")
+	public ResponseEntity<List<Produto>> consultarProduto(){
+		
+		List<Produto> produtos = produtoService.findAll();
+		
+		return ResponseEntity.ok(produtos);
+	}
+	
+	@GetMapping(params = "idproduto")
+	public ResponseEntity<Produto> getByIdProduto(@RequestParam("idproduto") Long idproduto){
+		
+		Produto produto = produtoService.findByIdProduto(idproduto);
+		
+		return ResponseEntity.ok(produto);
+	}
+	
+
+	
+	
+		
+	}
+	
+
+	
+	

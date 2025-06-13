@@ -1,0 +1,55 @@
+package wg.mscontrole.consume;
+
+import java.io.FileNotFoundException;
+import java.io.IOException;
+
+import org.springframework.amqp.rabbit.annotation.RabbitListener;
+import org.springframework.messaging.handler.annotation.Payload;
+import org.springframework.stereotype.Component;
+
+import com.fasterxml.jackson.databind.ObjectMapper;
+
+import lombok.RequiredArgsConstructor;
+import wg.mscontrole.config.RabbitMQConfig;
+import wg.mscontrole.domain.ControllerPedido;
+import wg.mscontrole.domain.OrdemPedido;
+import wg.mscontrole.domain.Produto;
+import wg.mscontrole.services.ControllerService;
+
+
+@Component
+@RequiredArgsConstructor
+public class PedidoConsumer {
+	
+	private final ControllerService controllerService;
+	
+	
+	@RabbitListener(queues = {RabbitMQConfig.QUEUE_CONSUMER_CONTROLLER})
+	private void emissaoPedido(@Payload String payload) throws FileNotFoundException, IOException {
+		
+		
+		try {
+			
+			var objectMapper = new ObjectMapper();
+			
+			OrdemPedido ordemPedido = objectMapper.readValue(payload, OrdemPedido.class);
+			
+			
+			ControllerPedido controllerPedido = new ControllerPedido();
+			controllerPedido.setIdpedido(ordemPedido.getIdpedido());
+			controllerPedido.setName(ordemPedido.getProduto());
+			controllerPedido.setQuantidade(ordemPedido.getQuantidade());
+			
+			controllerService.save(controllerPedido);				
+				
+			
+						
+		}catch(Exception e) {
+			e.printStackTrace();
+		}
+		
+				
+	
+	}
+
+}

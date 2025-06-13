@@ -1,0 +1,21 @@
+package wg.msbuncher.services;
+
+import org.springframework.stereotype.Service;
+
+import lombok.RequiredArgsConstructor;
+import wg.msbuncher.domain.OrdemProcessoProducao;
+import wg.msbuncher.repositories.OrdemProcessoProducaoRepository;
+
+@Service
+@RequiredArgsConstructor
+public class OrdemProcessoProducaoService {
+	
+	private final OrdemProcessoProducaoRepository ordemRepository;
+	
+	
+	public OrdemProcessoProducao save(OrdemProcessoProducao ordem) {
+		
+		return ordemRepository.save(ordem);
+	}
+
+}

@@ -1,0 +1,27 @@
+package wg.msbuncher.resources;
+
+import java.util.List;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
+
+import wg.msbuncher.domain.CBAbstract;
+import wg.msbuncher.repositories.CBAbstractRepository;
+
+@RestController
+@RequestMapping(value = "bunchers")
+public class ControllerResource {
+	
+	@Autowired
+	private CBAbstractRepository repository;
+	
+	public ResponseEntity<List<CBAbstract>> consultarOrdem(){
+		
+		List<CBAbstract> cbs = repository.findAll();
+		
+		return ResponseEntity.ok(cbs);
+	}
+
+}

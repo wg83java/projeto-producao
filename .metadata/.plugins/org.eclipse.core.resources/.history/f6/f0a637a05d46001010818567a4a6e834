@@ -1,0 +1,60 @@
+package wg.msbuncher.consumer;
+
+import org.springframework.amqp.rabbit.annotation.RabbitListener;
+import org.springframework.messaging.handler.annotation.Payload;
+import org.springframework.stereotype.Service;
+
+import com.fasterxml.jackson.databind.ObjectMapper;
+
+import lombok.RequiredArgsConstructor;
+import wg.msbuncher.domain.CBAbstract;
+import wg.msbuncher.domain.ListCb;
+import wg.msbuncher.domain.OrdemProcessoProducaoPedido;
+import wg.msbuncher.domain.PedidoLiberadoParaProcesso;
+import wg.msbuncher.services.OrdemProcessoProducaoPedidoService;
+
+@Service
+@RequiredArgsConstructor
+public class BuncherConsume {
+	
+private final OrdemProcessoProducaoPedidoService ordemProcessoService;
+	
+	
+	@RabbitListener(queues = "queue-bunchers")
+	public void emissaoPedido(@Payload String payload) {
+		
+		try {
+			
+			var objectMapper = new ObjectMapper();
+			
+			PedidoLiberadoParaProcesso processo = objectMapper.readValue(payload, PedidoLiberadoParaProcesso.class);
+			
+			
+			ListCb.iniciar();
+			CBAbstract cb =  ListCb.getInstance(processo.getName());
+			cb.inserirQuantidadeTotalPedido(processo.getQuantidade());
+			
+			OrdemProcessoProducaoPedido ordem = new OrdemProcessoProducaoPedido();
+			ordem.setDiametroCorda(cb.getDiametroCorda());
+			ordem.setDirecao(cb.getDirecao());
+			ordem.setFormacao(cb.getFormacao());
+			ordem.setMaquina(cb.getMaquina());
+			ordem.setNameProduto(cb.getName());
+			ordem.setPassoMaximo(cb.getPassoMaximo());
+			ordem.setPassoMinimo(cb.getPassoMinimo());
+			ordem.setQuantidade(cb.getQuantidade());
+			ordem.setQuantidadeBobina(cb.getQuantidadeBobina());
+			ordem.setQuantidadeCarga(cb.getQuantidadeCarga());
+			ordem.setQuantidadeRestante(cb.getQuantidadeRestante());
+			ordem.setQuantidadeTotalPedido(cb.getQuantidadeTotalPedido());
+			ordem.setCapacidadeMAximaBobina(cb.getCapacidadeMAximaBobina());
+						
+			ordemProcessoService.save(ordem);
+			
+		}catch(Exception e) {
+			e.printStackTrace();
+		}
+		
+	}
+
+}

@@ -1,0 +1,18 @@
+package wg.msextrusora.consumer;
+
+import org.springframework.amqp.rabbit.annotation.RabbitListener;
+import org.springframework.messaging.handler.annotation.Payload;
+import org.springframework.stereotype.Component;
+
+@Component
+public class ExtrusoraConsume {
+	
+	@RabbitListener(queues = "queue-extrusoras")
+	public void emissaoPedido(@Payload String payload) {
+		
+		System.out.println(payload);
+		
+		
+	}
+
+}

@@ -1,0 +1,27 @@
+package wg.mspedido.dtos;
+
+import java.time.LocalDate;
+import java.util.List;
+
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import wg.mspedido.domain.Pedido;
+import wg.mspedido.domain.Produto;
+import wg.mspedido.enums.Tipo;
+
+@Data
+@AllArgsConstructor
+public class PedidoDto {
+	
+	private LocalDate data;
+	private Tipo tipo;
+	private String cor;
+	private Integer quantidade;
+	
+	
+	public Pedido forModel() {
+		
+		return new Pedido(data,tipo,cor,quantidade);
+	}
+
+}

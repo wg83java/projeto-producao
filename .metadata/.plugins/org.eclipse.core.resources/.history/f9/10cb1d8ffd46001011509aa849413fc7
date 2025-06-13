@@ -1,0 +1,38 @@
+package wg.mscontrole.services;
+
+import java.util.List;
+
+import org.springframework.stereotype.Service;
+
+import lombok.RequiredArgsConstructor;
+import wg.mscontrole.domain.ControllerPedido;
+import wg.mscontrole.repositories.ControllerPedidoRepository;
+
+@Service
+@RequiredArgsConstructor
+public class ControllerService {
+	
+	private final ControllerPedidoRepository controllerRepository;
+	
+	
+	public ControllerPedido save(ControllerPedido pedido) {
+		
+		return controllerRepository.save(pedido);
+	}
+	
+	public List<ControllerPedido> findAll(){
+		
+		return controllerRepository.findAll();
+	}
+	
+	public List<ControllerPedido> getByProduto(String name){
+		
+		return controllerRepository.getByName(name);
+	}
+	
+	public void delete(Long id) {
+		
+		controllerRepository.deleteById(id);
+	}
+
+}

@@ -1,0 +1,28 @@
+package wg.msbuncher.resources;
+
+import java.util.List;
+
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
+
+import lombok.RequiredArgsConstructor;
+import wg.msbuncher.domain.OrdemProcessoProducaoPedido;
+import wg.msbuncher.services.OrdemProcessoProducaoPedidoService;
+
+@RestController
+@RequiredArgsConstructor
+@RequestMapping(value = "/bunchers")
+public class OrdemProcessoProducaoPedidoResource {
+	
+	private final OrdemProcessoProducaoPedidoService ordemProcessoService;
+	
+	
+	public ResponseEntity<List<OrdemProcessoProducaoPedido>> consultarOrdemProducao(){
+		
+		List<OrdemProcessoProducaoPedido> ordem = ordemProcessoService.consultarOrdemPedido();
+		
+		return ResponseEntity.ok(ordem);
+	}
+
+}

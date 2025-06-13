@@ -1,0 +1,17 @@
+package wg.msextrusora.domain;
+
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
+@Data
+@AllArgsConstructor
+@NoArgsConstructor
+public class Pedido {
+	
+	private Long idproduto;
+	private String  tipo;
+	private String cor;
+	private Integer quantidade;
+
+}

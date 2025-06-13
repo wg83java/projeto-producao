@@ -1,0 +1,19 @@
+package wg.mspedido.domain;
+
+import java.io.Serializable;
+import java.util.List;
+
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
+@Data
+@AllArgsConstructor
+@NoArgsConstructor
+public class OrdemPedido{
+	
+    
+	private Long idpedido;
+	private Produto produto;
+
+}

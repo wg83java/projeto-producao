@@ -1,0 +1,52 @@
+package wg.mscontrole.resources;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
+
+import lombok.RequiredArgsConstructor;
+import wg.mscontrole.domain.ControllerPedido;
+import wg.mscontrole.domain.PedidoLiberadoParaProcesso;
+import wg.mscontrole.services.ControllerService;
+
+@RestController
+@RequiredArgsConstructor
+@RequestMapping(value = "/controllers")
+public class ControllerPedidoResource {
+	
+	private final ControllerService controllerService;;
+	
+	@GetMapping
+	public ResponseEntity<List<ControllerPedido>> findAll(){
+		
+		List<ControllerPedido> pedidos = controllerService.findAll();
+		
+		return ResponseEntity.ok(pedidos);
+	}
+	
+	@GetMapping(params = "produto")
+	public ResponseEntity<List<ControllerPedido>> verificar(@RequestParam("produto") String nameProduto){
+		
+		List<ControllerPedido> pedidos = controllerService.getByProduto(nameProduto);
+		List<Long> idpedidos = new ArrayList<>();
+		
+		Integer maxQuantidade = 0;
+		for(ControllerPedido p : pedidos) {
+			maxQuantidade += p.getQuantidade();
+			idpedidos.add(p.getId());
+		}
+		
+		if(maxQuantidade > 10) {
+			PedidoLiberadoParaProcesso liberado = new PedidoLiberadoParaProcesso(null, nameProduto, maxQuantidade);
+		}
+		
+		return ResponseEntity.ok(pedidos);
+	}
+	
+
+}

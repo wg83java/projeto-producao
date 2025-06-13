@@ -1,0 +1,18 @@
+package wg.msbuncher;
+
+import org.springframework.amqp.rabbit.annotation.RabbitListener;
+import org.springframework.messaging.handler.annotation.Payload;
+import org.springframework.stereotype.Component;
+
+@Component
+public class BuncherConsumer {
+	
+	
+	@RabbitListener(queues = "queue-bunchers")
+	public void emissaoPedido(@Payload String payload) {
+		
+		System.out.println(payload);
+		
+	}
+
+}

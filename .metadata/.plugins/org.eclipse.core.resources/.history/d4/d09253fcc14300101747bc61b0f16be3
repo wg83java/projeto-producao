@@ -1,0 +1,11 @@
+package wg.msbuncher.domain;
+
+public abstract class CBAbstract {
+	
+	
+	public void cb(Integer quantidade) {
+		
+	}
+
+
+}

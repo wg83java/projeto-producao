@@ -1,0 +1,8 @@
+1749668728018	Rename resource 'application.properties'
+1749674951990	Delete element
+1749693419881	Encapsulate field 'maquina'
+1749693427666	Encapsulate field 'name'
+1749693435732	Encapsulate field 'formacao'
+1749693443734	Encapsulate field 'diametro'
+1749693449548	Encapsulate field 'quantidadeTotal'
+1749693455092	Encapsulate field 'quantidadeBobina'

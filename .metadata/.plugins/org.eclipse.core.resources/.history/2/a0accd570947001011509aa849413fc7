@@ -1,0 +1,32 @@
+package wg.msextrusora.consumer;
+
+import org.springframework.amqp.rabbit.annotation.RabbitListener;
+import org.springframework.messaging.handler.annotation.Payload;
+import org.springframework.stereotype.Component;
+
+import com.fasterxml.jackson.databind.ObjectMapper;
+
+import wg.msextrusora.domain.PedidoLiberadoParaProcesso;
+
+@Component
+public class ExtrusoraConsume {
+	
+	@RabbitListener(queues = "queue-extrusoras")
+	public void emissaoPedido(@Payload String payload) {
+		
+		try {
+			
+			var objectMapper = new ObjectMapper();
+			
+			PedidoLiberadoParaProcesso processo = objectMapper.readValue(payload, PedidoLiberadoParaProcesso.class);
+			
+			System.out.println(processo.toString());
+			
+		}catch(Exception e) {
+			e.printStackTrace();
+		}
+		
+		
+	}
+
+}

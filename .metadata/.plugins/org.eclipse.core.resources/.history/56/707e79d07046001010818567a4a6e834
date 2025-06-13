@@ -1,0 +1,11 @@
+package wg.mstorcedeira.domain;
+
+import java.util.List;
+
+public class PedidoLiberadoParaProcesso {
+	
+	private List<Long> idpedidos
+	private String name;
+	private Integer quantidade;
+
+}
