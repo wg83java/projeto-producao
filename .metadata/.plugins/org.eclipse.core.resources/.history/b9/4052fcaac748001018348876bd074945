@@ -1,0 +1,27 @@
+package wg.eurekaserver.securityConfig;
+
+import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
+import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
+
+//Problemas ao adicionar a dependencia security 
+//Adicionar import direto na classe escrevendo manualmente 
+
+@EnableWebSecurity
+public class SecurityConfig extends WebSecurityConfigurerAdapter{
+	
+	@Override
+	protected void configure(HttpSecurity http) throws Exception {
+		
+		http
+				.csrf().disable() //DESABILITANDO CSRF
+				.authorizeRequests()//AUTORIZANDO REQUESIÇOES REQUEST
+                .anyRequest()//QUALQUER REQUISIÇAO
+				.authenticated()//TEM QUE AUTENTICAR USUARIO COM USUARIO E SENHA CRIADA
+				.and()
+				.httpBasic(); //ALTENTICAÇÃO BASICA
+	}
+	
+	
+
+}

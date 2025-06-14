@@ -1,0 +1,39 @@
+spring:
+  application:
+    name: mstorcedeira
+    
+  rabbitmq:
+    host: localhost
+    port: 5672
+    username: guest
+    password: guest
+    
+  datasource:
+    url: jdbc:h2:mem:bdtorcedeira
+    driver-class-name: org.h2.Driver
+    username: sa
+    password:
+    
+  h2:
+    console:
+      enabled: true
+      path: /h2
+      
+  jpa:
+    database-platform: org.hibernate.dialect.H2Dialect
+    hibernate:
+      ddl-auto: update
+    show-sql: true
+    
+
+server:
+  port: 0
+  
+  
+eureka:
+  client:
+    service-url:
+      defaultZone: http://producao-user:producao@localhost:8761/eureka
+      
+  instance:
+    instance-id: ${spring.application.name}:${spring.application.instance_id:${random.value}}

@@ -4,12 +4,11 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 
-//Problemas ao adicionar a dependencia security 
-//Adicionar import direto na classe escrevendo manualmente 
-
 @EnableWebSecurity
-public class SecurityConfig extends WebSecurityConfigurerAdapter{
+public class SecurityConfig  extends WebSecurityConfigurerAdapter{
 	
+	
+
 	@Override
 	protected void configure(HttpSecurity http) throws Exception {
 		
@@ -21,7 +20,5 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter{
 				.and()
 				.httpBasic(); //ALTENTICAÇÃO BASICA
 	}
-	
-	
 
 }

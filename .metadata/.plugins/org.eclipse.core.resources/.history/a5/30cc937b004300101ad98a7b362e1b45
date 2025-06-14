@@ -1,5 +1,0 @@
-package wg.msbuncher.domain;
-
-public abstract class CBAbstract {
-
-}

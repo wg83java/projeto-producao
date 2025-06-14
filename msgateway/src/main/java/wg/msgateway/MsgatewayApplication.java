@@ -23,7 +23,7 @@ public class MsgatewayApplication {
 	public RouteLocator roter(RouteLocatorBuilder builder) {
 		
 		return builder.routes().route(r -> r.path("/pedidos/**").uri("lb://mspedido"))
-				               .route(r -> r.path("/controllers/**").uri("lb://mscontrole"))
+				               .route(r -> r.path("/controllers/**").uri("lb://mscontroller"))
 				               .route(r -> r.path("/bunchers/**").uri("lb://msbuncher"))
 				               .route(r -> r.path("/torcedeiras/**").uri("lb://mstorcedeira"))
 				               .route(r -> r.path("/extrusoras/**").uri("lb://msextrusora"))
