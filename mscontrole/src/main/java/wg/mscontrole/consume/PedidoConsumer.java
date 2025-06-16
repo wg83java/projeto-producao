@@ -13,7 +13,6 @@ import lombok.RequiredArgsConstructor;
 import wg.mscontrole.config.RabbitMQConfig;
 import wg.mscontrole.domain.ControllerPedido;
 import wg.mscontrole.domain.OrdemPedido;
-import wg.mscontrole.domain.Produto;
 import wg.mscontrole.services.ControllerService;
 
 
@@ -32,13 +31,13 @@ public class PedidoConsumer {
 			
 			var objectMapper = new ObjectMapper();
 			
-			OrdemPedido ordemPedido = objectMapper.readValue(payload, OrdemPedido.class);
+			OrdemPedido ordempedido = objectMapper.readValue(payload, OrdemPedido.class);
 			
 			
 			ControllerPedido controllerPedido = new ControllerPedido();
-			controllerPedido.setIdpedido(ordemPedido.getIdpedido());
-			controllerPedido.setName(ordemPedido.getProduto());
-			controllerPedido.setQuantidade(ordemPedido.getQuantidade());
+			controllerPedido.setIdpedido(ordempedido.getIdpedido());
+			controllerPedido.setName(ordempedido.getProduto());
+			controllerPedido.setQuantidade(ordempedido.getQuantidade());
 			
 			controllerService.saveController(controllerPedido);				
 				

@@ -1,0 +1,19 @@
+package wg.mspedido.domain;
+
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+import wg.mspedido.enums.Tipo;
+
+@Data
+@AllArgsConstructor
+@NoArgsConstructor
+public class OrdemPedido{
+	
+    
+	private Long idpedido;
+	private String produto;
+	private Integer quantidade;
+	private Tipo tipo;
+
+}

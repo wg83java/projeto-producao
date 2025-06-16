@@ -16,7 +16,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 @Entity
-
+@Data
 @AllArgsConstructor
 @NoArgsConstructor
 public class OrdemProcessoProducao implements Serializable{
@@ -32,6 +32,7 @@ public class OrdemProcessoProducao implements Serializable{
 	private String diametro;
 	private Integer quantidadeTotal;
 	private Integer quantidadeBobina;
+	private Integer quantidade;
 	
 	
 	@OneToMany (mappedBy = "ordem")
@@ -42,61 +43,5 @@ public class OrdemProcessoProducao implements Serializable{
 	}
 	
 	
-	public void setPedidos(List<Pedido> pedido) {
-		this.pedidos = pedido;
-	}
-	
-	public List<Pedido> getPedidos(){
-		return pedidos;
-	}
-
-	public String getMaquina() {
-		return maquina;
-	}
-
-	public void setMaquina(String maquina) {
-		this.maquina = maquina;
-	}
-
-	public String getName() {
-		return name;
-	}
-
-	public void setName(String name) {
-		this.name = name;
-	}
-
-	public String getFormacao() {
-		return formacao;
-	}
-
-	public void setFormacao(String formacao) {
-		this.formacao = formacao;
-	}
-
-	public String getDiametro() {
-		return diametro;
-	}
-
-	public void setDiametro(String diametro) {
-		this.diametro = diametro;
-	}
-
-	public Integer getQuantidadeTotal() {
-		return quantidadeTotal;
-	}
-
-	public void setQuantidadeTotal(Integer quantidadeTotal) {
-		this.quantidadeTotal = quantidadeTotal;
-	}
-
-	public Integer getQuantidadeBobina() {
-		return quantidadeBobina;
-	}
-
-	public void setQuantidadeBobina(Integer quantidadeBobina) {
-		this.quantidadeBobina = quantidadeBobina;
-	}
-
 }
 

@@ -1,0 +1,39 @@
+package wg.msbuncher.domain;
+
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
+@Data
+@AllArgsConstructor
+@NoArgsConstructor
+public class CB6mm extends CBAbstract{
+	
+	private String maquina = "105 & 106";
+	private String name = "CABO FLEXIVEL 1 X 6MM ";
+	private String formacao = "42 X 0,401";
+	private String diametro = " 4,60-mm";
+	private Integer quantidadeTotal;
+	private Integer quantidadeBobina;
+	private Integer quantidadeMaxBobina = 8500;
+	private Integer quantidade;
+	private String cor;
+	
+	
+	public void inserirQuantidadaPedido(Integer quantidadePedido) {
+		
+		if(quantidadePedido > quantidadeMaxBobina) {
+			
+			this.quantidadeTotal = quantidadePedido;
+			this.quantidadeBobina = quantidadeTotal / quantidadeMaxBobina;
+			this.quantidade = quantidadeMaxBobina;
+		}else {
+			this.quantidadeBobina = 1;
+			this.quantidadeTotal = quantidadePedido;
+			this.quantidade = quantidadeTotal;
+		}
+		
+		
+	}
+
+}

@@ -19,7 +19,7 @@ public abstract class CBAbstract {
 	private String cor;
 	
 	
-	public void inserirQuantidadaPedido(Integer quantidadePedido) {
+	public void inserirQuantidadeTotalPedido(Integer quantidadePedido) {
 		
 	}
 

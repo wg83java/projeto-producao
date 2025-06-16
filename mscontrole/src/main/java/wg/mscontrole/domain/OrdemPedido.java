@@ -12,5 +12,6 @@ public class OrdemPedido {
 	private Long idpedido;
 	private String produto;
 	private Integer quantidade;
+	
 
 }

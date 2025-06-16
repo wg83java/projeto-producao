@@ -19,6 +19,8 @@ import wg.msextrusora.repositories.PedidoRepository;
 import wg.msextrusora.services.OrdemProcessoProducaoService;
 import wg.msextrusora.services.PedidoService;
 
+import java.util.stream.IntStream;
+
 @Component
 @RequiredArgsConstructor
 public class ExtrusoraConsume {
@@ -36,6 +38,16 @@ public class ExtrusoraConsume {
 			
 			PedidoLiberadoParaProcesso processo = objectMapper.readValue(payload, PedidoLiberadoParaProcesso.class);
 			
+			
+			//iniciando a instancia do cabo recebido
+			ListCb.iniciar();
+			CBAbstract cb = ListCb.getInstance(processo.getName());
+			cb.inserirQuantidadeTotalPedido(processo.getQuantidade());
+			
+			//Realizando o processo de ordem para producao
+			
+			OrdemProcessoProducao ordem = ordemService.saveOrdemProcessoProducao(cb);
+			
 			//Recuperando pedidos por id
 			List<Pedido> pedidos = new ArrayList<>();
 						
@@ -45,33 +57,18 @@ public class ExtrusoraConsume {
 				pedidos.add(pedido);			
 				
 			}
+		
 			//Separando pedidos por cor e somando quantidade para producao
-			List<Pedido> pedidosSeparados = pedidoService.separarPedido(pedidos);		
+			List<Pedido> pedidosSeparados = pedidoService.separarPedido(pedidos);
 			
-			//iniciando a instancia do cabo recebido
-			ListCb.iniciar();
-			CBAbstract cb = ListCb.getInstance(processo.getName());
-			cb.inserirQuantidadaPedido(processo.getQuantidade());
-			
-			//Realizando o processo de ordem para producao
-			var ordem = new OrdemProcessoProducao();
-			
-			ordem.setName(cb.getName());
-			ordem.setDiametro(cb.getDiametro());
-			ordem.setFormacao(cb.getFormacao());
-			ordem.setMaquina(cb.getMaquina());
-			ordem.setQuantidadeBobina(cb.getQuantidadeBobina());
-			ordem.setQuantidadeTotal(cb.getQuantidadeTotal());
-			
-			
-			ordemService.saveOrdemProcessoProducao(ordem);
 			
 			//Obtendo os pedidos separados para processo
-			for(Pedido rec : pedidosSeparados) {
-				if(rec.getQuantidade() > 0) {
-					Pedido novo = new Pedido(null,rec.getIdproduto(),rec.getTipo(),rec.getCor(),rec.getQuantidade(),ordem);
+			for(Pedido pedido : pedidosSeparados) {
+				if(pedido.getQuantidade() > 0) {
+					Pedido novopedido = new Pedido(null,pedido.getIdproduto(),pedido.getTipo(),pedido.getCor(),
+							                 pedido.getQuantidade(),ordem);
 					
-					pedidoRepository.save(novo);
+					pedidoRepository.save(novopedido);
 				}
 			}
 					

@@ -1,0 +1,31 @@
+package wg.msextrusora.domain;
+
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
+public class CB6mm extends CBAbstract {
+	
+	private String maquina = "EXTRUSORA";
+	private String name = "CABO FLEXIVEL 1 X 6MM ";
+	private String formacao = "42 X 0,401";
+	private String diametro = " Há preencher";
+	private Integer quantidadeTotal;
+	private Integer quantidadeBobina;
+	private Integer quantidade;
+	private Integer quantidadeMaxBobina = 8500;
+	private String cor;
+	
+	
+	public void inserirQuantidadaPedido(Integer quantidadePedido) {
+		
+		this.quantidadeTotal = quantidadePedido;
+		this.quantidadeBobina = quantidadeTotal / quantidadeMaxBobina;;
+		
+		
+	}
+
+}

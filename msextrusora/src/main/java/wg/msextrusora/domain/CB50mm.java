@@ -13,16 +13,27 @@ public class CB50mm extends CBAbstract {
 	private String name = "CABO FLEXIVEL 1 X 50MM ";
 	private String formacao = "51 X 0,401";
 	private String diametro = " diametro cabo";
+	private Integer quantidadeMaxBobina = 1000;
 	private Integer quantidadeTotal;
 	private Integer quantidadeBobina;
 	private Integer quantidade;
 	private String cor;
 	
-	
-	public void inserirQuantidadaPedido(Integer quantidadePedido) {
+	@Override
+	public void inserirQuantidadeTotalPedido(Integer quantidadePedido) {
 		
-		this.quantidadeTotal = quantidadePedido;
-		this.quantidadeBobina = quantidadeTotal / 1000;
+		if(quantidadePedido > quantidadeMaxBobina) {
+			
+			this.quantidadeTotal = quantidadePedido;
+			this.quantidadeBobina = quantidadeTotal / quantidadeMaxBobina;
+			this.quantidade = quantidadeTotal / quantidadeBobina;
+			
+		}else {
+			this.quantidadeTotal = quantidadePedido;
+			this.quantidadeBobina = 1;
+			this.quantidade = quantidadePedido;
+			
+		}
 		
 		
 	}

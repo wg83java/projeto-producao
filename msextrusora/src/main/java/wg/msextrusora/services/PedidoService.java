@@ -13,43 +13,41 @@ import wg.msextrusora.repositories.PedidoFeign;
 @Service
 @RequiredArgsConstructor
 public class PedidoService {
-	
+
 	private final PedidoFeign feign;
-	
-	
+
 	public Pedido obterPedido(Long id) {
-		
+
 		ResponseEntity<Pedido> pedido = feign.findByIdPedido(id);
-		
+
 		return pedido.getBody();
-		
+
 	}
-	
-	public List<Pedido> separarPedido(List<Pedido> pedidos){
-			
-		String[] cores = {"verde","amarelo","azul","preto","vermelho"};
-		List<Pedido> p = new ArrayList<>();
+
+	public List<Pedido> separarPedido(List<Pedido> pedidos) {
+
+		String[] cores = { "branco", "verde", "amarelo", "azul", "preto", "vermelho", "veia", "epr" };
+		List<Pedido> pedidoseparados = new ArrayList<>();
 		Integer quantidade = 0;
-			
-		for(String cor : cores) {
-			for(Pedido pedido : pedidos) {
-				if(cor.equals(pedido.getCor())) {
-					quantidade += pedido.getQuantidade();			
-					
+
+		for (String cor : cores) {
+			for (Pedido pedido : pedidos) {
+				if (cor.equals(pedido.getCor())) {
+					quantidade += pedido.getQuantidade();
+
 				}
+
 			}
+
 			Pedido p1 = new Pedido();
 			p1.setCor(cor);
 			p1.setQuantidade(quantidade);
-			p.add(p1);
-			
+			pedidoseparados.add(p1);
+
 			quantidade = 0;
-			
+
 		}
-		
-		return p;
-		
+		return pedidoseparados;
+
 	}
-
-
 }

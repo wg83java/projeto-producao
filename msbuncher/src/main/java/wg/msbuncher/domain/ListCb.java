@@ -15,6 +15,7 @@ public class ListCb {
 	public static void iniciar() {
 		
 		listaCabos.put("cb50mm", new CB50mm());
+		listaCabos.put("cb6mm", new CB6mm());
 		
 	}
 	

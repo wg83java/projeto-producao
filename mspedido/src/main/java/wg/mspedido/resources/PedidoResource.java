@@ -66,6 +66,7 @@ public class PedidoResource {
 		ordem.setProduto(produto.getName());
 		ordem.setQuantidade(pedido.getQuantidade());
 		
+		
 		publicarPedido.publicarPedido(ordem);
 		
 		return ResponseEntity.status(HttpStatus.CREATED).build();

@@ -50,7 +50,7 @@ public class ControllerPedidoResource {
 			idcontroller.add(p.getId());
 		}
 		
-		if(maxQuantidade >= 10) {
+		if(maxQuantidade >= 1000) {
 			PedidoLiberadoParaProcesso liberado = new PedidoLiberadoParaProcesso(idpedidos, nameProduto, maxQuantidade);
 			
 			publicar.publicarOrdemPedido(liberado);

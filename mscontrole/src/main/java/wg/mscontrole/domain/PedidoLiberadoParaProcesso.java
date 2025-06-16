@@ -14,5 +14,7 @@ public class PedidoLiberadoParaProcesso {
 	private List<Long> idpedido;
 	private String name;
 	private Integer quantidade;
+	
+	
 
 }

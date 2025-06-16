@@ -13,7 +13,6 @@ import jakarta.persistence.JoinColumn;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import wg.mspedido.enums.Tipo;
 
 @Entity
 @NoArgsConstructor
@@ -28,15 +27,12 @@ public class Pedido implements Serializable{
 	@JoinColumn(name = "id_produto")
 	private Long idproduto;
 	private LocalDate data;
-	@Enumerated(EnumType.STRING)
-	private Tipo tipo;
 	private String cor;
 	private Integer quantidade;
 	
-	public Pedido(Long idproduto,Tipo tipo,String cor,Integer quantidade) {
+	public Pedido(Long idproduto,String cor,Integer quantidade) {
 		this.idproduto = idproduto;
 		this.data = LocalDate.now();
-		this.tipo = tipo;
 		this.cor = cor;
 		this.quantidade = quantidade;
 	}
