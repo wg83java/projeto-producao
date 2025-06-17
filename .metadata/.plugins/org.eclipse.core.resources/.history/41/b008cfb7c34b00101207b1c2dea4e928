@@ -1,6 +1,5 @@
 package wg.msbuncher.services;
 
-import java.time.LocalDate;
 import java.util.List;
 
 import org.springframework.stereotype.Service;
@@ -16,7 +15,7 @@ import wg.msbuncher.repositories.OrdemProcessoProducaoRepository;
 public class OrdemProcessoProducaoService {
 	
 	private final OrdemProcessoProducaoRepository ordemRepository;
-	private LocalDate data;
+	private sLocalDate data;
 	
 	@Transactional
 	public OrdemProcessoProducao saveOrdemProcessoProducao(CBAbstract cb) {

@@ -19,6 +19,8 @@ import wg.msextrusora.repositories.PedidoRepository;
 import wg.msextrusora.services.OrdemProcessoProducaoService;
 import wg.msextrusora.services.PedidoService;
 
+import java.util.stream.IntStream;
+
 @Component
 @RequiredArgsConstructor
 public class ExtrusoraConsume {

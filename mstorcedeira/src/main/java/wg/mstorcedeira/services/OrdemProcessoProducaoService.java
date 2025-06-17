@@ -1,11 +1,13 @@
 package wg.mstorcedeira.services;
 
+import java.time.LocalDate;
 import java.util.List;
 
 import org.springframework.stereotype.Service;
 
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
+import wg.mstorcedeira.domain.CBAbstract;
 import wg.mstorcedeira.domain.OrdemProcessoProducao;
 import wg.mstorcedeira.repositories.OrdemProcessoProducaoRepository;
 
@@ -14,6 +16,7 @@ import wg.mstorcedeira.repositories.OrdemProcessoProducaoRepository;
 public class OrdemProcessoProducaoService {
 	
 	private final OrdemProcessoProducaoRepository ordemRepository;
+	private LocalDate data;
 	
 	
 	public List<OrdemProcessoProducao> findAll(){
@@ -22,9 +25,26 @@ public class OrdemProcessoProducaoService {
 	}
 	
 	@Transactional
-	public OrdemProcessoProducao saveOrdemProcessoProducao(OrdemProcessoProducao ordemProcesso) {
+	public OrdemProcessoProducao saveOrdemProcessoProducao(CBAbstract cb) {
 		
-		return ordemRepository.save(ordemProcesso);
+		var ordem = new OrdemProcessoProducao();
+	
+		ordem.setName(cb.getName());
+		ordem.setMaquina(cb.getMaquina());
+		ordem.setFormacao(cb.getFormacao());
+		ordem.setDiametroCorda(cb.getDiametroCorda());
+		ordem.setDirecao(cb.getDirecao());
+		ordem.setCapacidadeMaxBobina(cb.getCapacidadeMaxBobina());
+		ordem.setQuantidade(cb.getQuantidade());
+		ordem.setPassoMaximo(cb.getPassoMaximo());
+		ordem.setPassoMinimo(cb.getPassoMinimo());
+		ordem.setQuantidadeBobina(cb.getQuantidadeBobina());
+		ordem.setQuantidadeCarga(cb.getQuantidadeCarga());
+		ordem.setQuantidadeRestante(cb.getQuantidadeRestante());
+		ordem.setQuantidadeTotalPedido(cb.getQuantidadeTotalPedido());
+		ordem.setData(data.now());
+		
+		return ordemRepository.save(ordem);
 	}
 
 }

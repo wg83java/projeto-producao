@@ -33,7 +33,8 @@ public class BuncherConsume {
 			ListCb.iniciar();
 			CBAbstract cb =  ListCb.getInstance(processo.getName());
 			cb.inserirQuantidadeTotalPedido(processo.getQuantidade());
-						
+			
+			
 			
 			ordemService.saveOrdemProcessoProducao(cb);
 			

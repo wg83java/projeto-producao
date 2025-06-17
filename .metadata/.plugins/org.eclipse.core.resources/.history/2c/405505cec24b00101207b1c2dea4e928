@@ -30,7 +30,7 @@ public class OrdemProcessoProducaoService {
 		ordem.setQuantidadeBobina(cb.getQuantidadeBobina());
 		ordem.setQuantidadeTotal(cb.getQuantidadeTotal());
 		ordem.setQuantidade(cb.getQuantidade());
-		ordem.setData(data.now());
+		ordem.setData(data);
 		
 		return ordemProcessoRepository.save(ordem);
 	}

@@ -1,6 +1,7 @@
 package wg.mstorcedeira.domain;
 
 import java.io.Serializable;
+import java.time.LocalDate;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -33,5 +34,6 @@ public class OrdemProcessoProducao implements Serializable{
 	private Integer capacidadeMaxBobina;
 	private Integer quantidadeCarga;
 	private Integer quantidadeRestante;
+	private LocalDate data;
 
 }

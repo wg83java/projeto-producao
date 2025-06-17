@@ -32,8 +32,23 @@ public class TorcedeiraConsumer {
 			CBAbstract cb = ListCb.getInstance(processo.getName());
 			cb.inserirQuantidadeTotalPedido(processo.getQuantidade());
 			
-						
-			ordemService.saveOrdemProcessoProducao(cb);
+			var ordem = new OrdemProcessoProducao();
+			
+			ordem.setName(cb.getName());
+			ordem.setMaquina(cb.getMaquina());
+			ordem.setFormacao(cb.getFormacao());
+			ordem.setDiametroCorda(cb.getDiametroCorda());
+			ordem.setDirecao(cb.getDirecao());
+			ordem.setCapacidadeMaxBobina(cb.getCapacidadeMaxBobina());
+			ordem.setQuantidade(cb.getQuantidade());
+			ordem.setPassoMaximo(cb.getPassoMaximo());
+			ordem.setPassoMinimo(cb.getPassoMinimo());
+			ordem.setQuantidadeBobina(cb.getQuantidadeBobina());
+			ordem.setQuantidadeCarga(cb.getQuantidadeCarga());
+			ordem.setQuantidadeRestante(cb.getQuantidadeRestante());
+			ordem.setQuantidadeTotalPedido(cb.getQuantidadeTotalPedido());
+			
+			ordemService.saveOrdemProcessoProducao(ordem);
 			
 		}catch(Exception e) {
 			e.printStackTrace();

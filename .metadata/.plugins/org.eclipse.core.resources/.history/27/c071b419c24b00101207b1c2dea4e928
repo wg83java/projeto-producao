@@ -1,6 +1,5 @@
 package wg.msextrusora.services;
 
-import java.time.LocalDate;
 import java.util.List;
 
 import org.springframework.stereotype.Service;
@@ -16,7 +15,6 @@ import wg.msextrusora.repositories.OrdemProcessoProducaoRepository;
 public class OrdemProcessoProducaoService {
 	
 	private final OrdemProcessoProducaoRepository ordemProcessoRepository;
-	private LocalDate data;
 	
 	@Transactional
 	public OrdemProcessoProducao saveOrdemProcessoProducao(CBAbstract cb) {
@@ -30,7 +28,6 @@ public class OrdemProcessoProducaoService {
 		ordem.setQuantidadeBobina(cb.getQuantidadeBobina());
 		ordem.setQuantidadeTotal(cb.getQuantidadeTotal());
 		ordem.setQuantidade(cb.getQuantidade());
-		ordem.setData(data.now());
 		
 		return ordemProcessoRepository.save(ordem);
 	}

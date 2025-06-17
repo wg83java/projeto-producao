@@ -1,6 +1,5 @@
 package wg.msbuncher.services;
 
-import java.time.LocalDate;
 import java.util.List;
 
 import org.springframework.stereotype.Service;
@@ -16,7 +15,6 @@ import wg.msbuncher.repositories.OrdemProcessoProducaoRepository;
 public class OrdemProcessoProducaoService {
 	
 	private final OrdemProcessoProducaoRepository ordemRepository;
-	private LocalDate data;
 	
 	@Transactional
 	public OrdemProcessoProducao saveOrdemProcessoProducao(CBAbstract cb) {
@@ -36,7 +34,6 @@ public class OrdemProcessoProducaoService {
 		ordem.setQuantidadeBobina(cb.getQuantidadeBobina());
 		ordem.setQuantidadeCarga(cb.getQuantidadeCarga());
 		ordem.setQuantidadeRestante(cb.getQuantidadeRestante());
-		ordem.setData(data.now());
 		
 		return ordemRepository.save(ordem);
 	}

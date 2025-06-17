@@ -33,9 +33,24 @@ public class BuncherConsume {
 			ListCb.iniciar();
 			CBAbstract cb =  ListCb.getInstance(processo.getName());
 			cb.inserirQuantidadeTotalPedido(processo.getQuantidade());
-						
 			
-			ordemService.saveOrdemProcessoProducao(cb);
+			var ordem = new OrdemProcessoProducao();
+			
+			ordem.setName(cb.getName());
+			ordem.setFormacao(cb.getFormacao());
+			ordem.setDiametroCorda(cb.getDiametroCorda());
+			ordem.setPassoMaximo(cb.getPassoMaximo());
+			ordem.setPassoMinimo(cb.getPassoMinimo());
+			ordem.setDirecao(cb.getDirecao());
+			ordem.setQuantidade(cb.getQuantidade());
+			ordem.setCapacidadeMaxBobina(cb.getCapacidadeMaxBobina());
+			ordem.setMaquina(cb.getMaquina());
+			ordem.setQuantidadeTotalPedido(cb.getQuantidadeTotalPedido());
+			ordem.setQuantidadeBobina(cb.getQuantidadeBobina());
+			ordem.setQuantidadeCarga(cb.getQuantidadeCarga());
+			ordem.setQuantidadeRestante(cb.getQuantidadeRestante());
+			
+			ordemService.saveOrdemProcessoProducao(ordem);
 			
 			
 			
