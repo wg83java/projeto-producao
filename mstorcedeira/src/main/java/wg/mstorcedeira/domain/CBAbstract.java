@@ -19,7 +19,7 @@ public abstract class CBAbstract {
 	private Integer quantidadeBobina;
 	private Integer quantidade;
 	private Integer quantidadeTotalPedido;
-	private Integer capacidadeMAximaBobina;
+	private Integer capacidadeMaxBobina;
 	private Integer quantidadeCarga;
 	private Integer quantidadeRestante;
 	

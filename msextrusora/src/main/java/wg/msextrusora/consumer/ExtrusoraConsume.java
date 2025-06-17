@@ -57,6 +57,7 @@ public class ExtrusoraConsume {
 				pedidos.add(pedido);			
 				
 			}
+			
 		
 			//Separando pedidos por cor e somando quantidade para producao
 			List<Pedido> pedidosSeparados = pedidoService.separarPedido(pedidos);
@@ -65,7 +66,7 @@ public class ExtrusoraConsume {
 			//Obtendo os pedidos separados para processo
 			for(Pedido pedido : pedidosSeparados) {
 				if(pedido.getQuantidade() > 0) {
-					Pedido novopedido = new Pedido(null,pedido.getIdproduto(),pedido.getTipo(),pedido.getCor(),
+					Pedido novopedido = new Pedido(null,pedido.getCor(),
 							                 pedido.getQuantidade(),ordem);
 					
 					pedidoRepository.save(novopedido);

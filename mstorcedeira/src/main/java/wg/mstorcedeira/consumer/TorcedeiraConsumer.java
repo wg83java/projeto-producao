@@ -39,8 +39,14 @@ public class TorcedeiraConsumer {
 			ordem.setFormacao(cb.getFormacao());
 			ordem.setDiametroCorda(cb.getDiametroCorda());
 			ordem.setDirecao(cb.getDirecao());
-			ordem.setCapacidadeMAximaBobina(cb.getCapacidadeMAximaBobina());
+			ordem.setCapacidadeMaxBobina(cb.getCapacidadeMaxBobina());
 			ordem.setQuantidade(cb.getQuantidade());
+			ordem.setPassoMaximo(cb.getPassoMaximo());
+			ordem.setPassoMinimo(cb.getPassoMinimo());
+			ordem.setQuantidadeBobina(cb.getQuantidadeBobina());
+			ordem.setQuantidadeCarga(cb.getQuantidadeCarga());
+			ordem.setQuantidadeRestante(cb.getQuantidadeRestante());
+			ordem.setQuantidadeTotalPedido(cb.getQuantidadeTotalPedido());
 			
 			ordemService.saveOrdemProcessoProducao(ordem);
 			

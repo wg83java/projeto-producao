@@ -43,7 +43,7 @@ public class BuncherConsume {
 			ordem.setPassoMinimo(cb.getPassoMinimo());
 			ordem.setDirecao(cb.getDirecao());
 			ordem.setQuantidade(cb.getQuantidade());
-			ordem.setCapacidadeMAximaBobina(cb.getCapacidadeMAximaBobina());
+			ordem.setCapacidadeMaxBobina(cb.getCapacidadeMaxBobina());
 			ordem.setMaquina(cb.getMaquina());
 			ordem.setQuantidadeTotalPedido(cb.getQuantidadeTotalPedido());
 			ordem.setQuantidadeBobina(cb.getQuantidadeBobina());
