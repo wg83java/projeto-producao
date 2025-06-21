@@ -1,0 +1,53 @@
+package wg.mscontrole.resources;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import org.hibernate.ResourceClosedException;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.HttpStatusCode;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
+
+import com.fasterxml.jackson.core.JsonProcessingException;
+
+import lombok.RequiredArgsConstructor;
+import wg.mscontrole.domain.ControllerPedido;
+import wg.mscontrole.domain.PedidoLiberadoParaProcesso;
+import wg.mscontrole.publications.OrdemPedidoPublish;
+import wg.mscontrole.services.ControllerService;
+import wg.mscontrole.services.exceptions.ResourceNotFoundException;
+
+@RestController
+@RequiredArgsConstructor
+@RequestMapping(value = "/controllers")
+public class ControllerPedidoResource {
+	
+	private final ControllerService controllerService;
+
+	
+	@GetMapping
+	public ResponseEntity<List<ControllerPedido>> findAll(){
+		
+		List<ControllerPedido> pedidos = controllerService.findAll();
+		
+		return ResponseEntity.ok(pedidos);
+	}
+	
+	@GetMapping(params = "produto")
+	public ResponseEntity verificarProduto(@RequestParam("produto") String nameProduto) throws JsonProcessingException{
+		
+		List<ControllerPedido> pedidos = controllerService.verificarProduto(nameProduto);
+		
+		if(pedidos.isEmpty()){
+			return new ResourceNotFoundException(nameProduto);
+		}
+		
+		return ResponseEntity.ok().header("Pedido enviado").build();
+	}
+	
+
+}

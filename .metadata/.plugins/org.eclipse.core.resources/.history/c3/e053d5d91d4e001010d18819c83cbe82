@@ -1,0 +1,52 @@
+package wg.mspedido.services;
+
+import java.util.List;
+import java.util.Optional;
+
+import org.springframework.stereotype.Service;
+
+import lombok.RequiredArgsConstructor;
+import wg.mspedido.domain.Produto;
+import wg.mspedido.repositories.ProdutoRepository;
+import wg.mspedido.services.exceptions.ResourceNotFoundException;
+
+@Service
+@RequiredArgsConstructor
+public class ProdutoService {
+	
+	private final ProdutoRepository produtoRepository;
+	
+	
+	public Produto saveProduto(Produto produto) {
+		
+		
+		return produtoRepository.save(produto);
+	}
+
+
+	public Produto findByIdProduto(Long idproduto) {
+		
+		Optional<Produto> produto = produtoRepository.findById(idproduto);
+		
+		return produto.orElseThrow(()-> new ResourceNotFoundException(idproduto));
+	}
+
+
+	public List<Produto> findAll() {
+		
+		return produtoRepository.findAll();
+	}
+	
+	public void deletarProduto(Long idproduto) {
+		
+		try {
+			produtoRepository.deleteById(idproduto);
+			
+		}catch(Exception e) {
+			e.printStackTrace();
+		}
+	}
+	
+	
+
+}

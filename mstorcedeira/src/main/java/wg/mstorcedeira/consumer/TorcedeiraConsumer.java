@@ -30,8 +30,7 @@ public class TorcedeiraConsumer {
 			
 			ListCb.iniciar();
 			CBAbstract cb = ListCb.getInstance(processo.getName());
-			cb.inserirQuantidadeTotalPedido(processo.getQuantidade());
-			
+			cb.inserirQuantidadeTotalPedido(processo.getQuantidade());			
 						
 			ordemService.saveOrdemProcessoProducao(cb);
 			

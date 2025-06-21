@@ -1,0 +1,5 @@
+package wg.mspedido.resources.exceptions;
+
+public class ResourceExceptionHandler {
+
+}

@@ -7,17 +7,24 @@ import org.springframework.stereotype.Service;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 
+import jakarta.persistence.EntityNotFoundException;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
+import wg.mspedido.domain.OrdemPedido;
 import wg.mspedido.domain.Pedido;
+import wg.mspedido.domain.Produto;
+import wg.mspedido.publications.PedidoPublish;
 import wg.mspedido.repositories.PedidoRepository;
-import wg.mspedido.services.exceptions.ResourceNotFondException;
+import wg.mspedido.services.exceptions.ErroComunicacaoMicroservicoException;
+import wg.mspedido.services.exceptions.ResourceNotFoundException;
 
 @Service
 @RequiredArgsConstructor
 public class PedidoService {
 	
 	private final PedidoRepository pedidoRepository;
+	private final ProdutoService produtoService;
+	private final PedidoPublish publicarPedido;
 	
 	
 	public List<Pedido> findAll(){
@@ -29,7 +36,7 @@ public class PedidoService {
 		
 		Optional<Pedido> pedido = pedidoRepository.findById(idpedido);
 		
-		return pedido.orElseThrow(()-> new ResourceNotFondException(idpedido));
+		return pedido.orElseThrow(()-> new ResourceNotFoundException(idpedido));
 	}
 	
 	@Transactional
@@ -38,15 +45,62 @@ public class PedidoService {
 			
 			pedidoRepository.save(pedido);
 			
-		}catch(RuntimeException e) {
+			Produto produto = produtoService.findByIdProduto(pedido.getIdproduto());
+
+			var ordem = new OrdemPedido();
+			ordem.setIdpedido(pedido.getId());
+			ordem.setProduto(produto.getName());
+			ordem.setQuantidade(pedido.getQuantidade());
+
+			publicarPedido.publicarPedido(ordem);
+			
+			
+		}catch(ResourceNotFoundException e) {
 			e.printStackTrace();
+			throw new ResourceNotFoundException(pedido.getIdproduto());
+
+		
+		}catch(Exception e) {
+			
+			throw new ErroComunicacaoMicroservicoException("Erro comunicacao Microservico: "+e.getMessage());
+
 		}
 		
 		return pedido;
 	}
 	
-
+	public void deletarPedidoPorId(Long idpedido) {
+		
+		try {
+			
+			pedidoRepository.deleteById(idpedido);
+			
+			
+		}catch(Exception e) {
+			e.printStackTrace();
+		}
+	}
 	
+	public Pedido alteraPedido(Long idpedido,Pedido obj) {
+		
+		try {
+			
+			Pedido pedido = pedidoRepository.getReferenceById(idpedido);
+			alteraDados(pedido, obj);
+			
+			return pedidoRepository.save(pedido);
+			
+			
+		}catch(EntityNotFoundException e) {
+			throw new ResourceNotFoundException(idpedido);
+		}
+	}
+	
+	private void alteraDados(Pedido entity,Pedido obj) {
+		entity.setIdproduto(obj.getIdproduto());
+		entity.setCor(obj.getCor());
+		entity.setQuantidade(obj.getQuantidade());
+	}
 	
 
 }

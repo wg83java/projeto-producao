@@ -1,0 +1,5 @@
+package wg.mspedido.services.exceptions;
+
+public class ErroComunicacaoMicroservicoException {
+
+}

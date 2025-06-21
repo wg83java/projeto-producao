@@ -1,7 +1,7 @@
 package wg.msextrusora.consumer;
 
-import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import org.springframework.amqp.rabbit.annotation.RabbitListener;
 import org.springframework.messaging.handler.annotation.Payload;
@@ -46,31 +46,18 @@ public class ExtrusoraConsume {
 			
 			OrdemProcessoProducao ordem = ordemService.saveOrdemProcessoProducao(cb);
 			
-			//Recuperando pedidos por id
-			List<Pedido> pedidos = new ArrayList<>();
-						
-			for(Long id : processo.getIdpedido()) {
-				
-				Pedido pedido = pedidoService.obterPedido(id);
-				pedidos.add(pedido);			
-				
-			}
+			//criando lista de pedidos recuperados por id
+			List<Pedido> pedidos = processo.getIdpedido().stream()
+					               .map(id -> pedidoService.obterPedido(id))
+					               .collect(Collectors.toList());
 			
-		
-			//Separando pedidos por cor e somando quantidade para producao
-			List<Pedido> pedidosSeparados = pedidoService.separarPedido(pedidos);
+			//criando lista de pedidos somando quantidade total por cores
+			List<Pedido> pedidoSeparado = pedidoService.separarPedido(pedidos);
 			
-			
-			//Obtendo os pedidos separados para processo
-			for(Pedido pedido : pedidosSeparados) {
-				if(pedido.getQuantidade() > 0) {
-					Pedido novopedido = new Pedido(null,pedido.getCor(),
-							                 pedido.getQuantidade(),ordem);
-					
-					pedidoRepository.save(novopedido);
-				}
-			}
-					
+			//verificando quantidade dos pedidos adicionando na ordem de producao
+			pedidoSeparado.stream().filter(pedido -> pedido.getQuantidade() > 0)
+			                       .forEach(pedido -> pedidoRepository.save(new Pedido(null,pedido.getCor(),pedido.getQuantidade(),ordem)));
+							
 					
 		}catch(Exception e) {
 			e.printStackTrace();

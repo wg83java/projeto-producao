@@ -1,7 +1,0 @@
-package wg.msbuncher.repositories;
-
-import org.springframework.data.jpa.repository.JpaRepository;
-
-public interface OrdemProcessoProducao extends JpaRepository<OrdemProcessoProducao, Long>{
-
-}

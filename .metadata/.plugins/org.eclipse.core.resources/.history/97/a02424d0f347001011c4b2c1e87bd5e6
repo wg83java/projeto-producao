@@ -1,5 +1,0 @@
-package wg.eurekaserver.config;
-
-public class SecurityConfig {
-
-}
