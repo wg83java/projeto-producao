@@ -38,7 +38,7 @@ public class ResourceExceptionHandler {
 	@ExceptionHandler(ErroComunicacaoMicroservicoException.class)
 	public ResponseEntity<StandarError> comunicacaoMicroservice(ErroComunicacaoMicroservicoException e,HttpServletRequest request){
 		
-		String error = "Erro comunicacao entre microservicos";
+		String error = "Servico indisponivel temporariamente";
 		HttpStatus status = HttpStatus.SERVICE_UNAVAILABLE;
 		StandarError err = new StandarError(Instant.now(), status.value(), error, e.getMessage(), request.getRequestURI());
 		

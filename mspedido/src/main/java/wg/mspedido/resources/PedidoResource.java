@@ -6,7 +6,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -17,7 +16,6 @@ import org.springframework.web.bind.annotation.RestController;
 import com.fasterxml.jackson.core.JsonProcessingException;
 
 import lombok.RequiredArgsConstructor;
-import wg.mspedido.domain.OrdemPedido;
 import wg.mspedido.domain.Pedido;
 import wg.mspedido.domain.Produto;
 import wg.mspedido.dtos.PedidoDto;
@@ -25,7 +23,6 @@ import wg.mspedido.dtos.ProdutoDto;
 import wg.mspedido.publications.PedidoPublish;
 import wg.mspedido.services.PedidoService;
 import wg.mspedido.services.ProdutoService;
-import wg.mspedido.services.exceptions.ErroComunicacaoMicroservicoException;
 
 @RestController
 @RequiredArgsConstructor
@@ -61,16 +58,9 @@ public class PedidoResource {
 	public ResponseEntity savePedido(@RequestBody PedidoDto pedidoDto) throws JsonProcessingException {
 
 		Pedido pedido = pedidoDto.toModel();
-		//Produto produto = produtoService.findByIdProduto(pedido.getIdproduto());
 
 		pedidoService.savePedido(pedido);
 
-		/*var ordem = new OrdemPedido();
-		ordem.setIdpedido(pedido.getId());
-		ordem.setProduto(produto.getName());
-		ordem.setQuantidade(pedido.getQuantidade());
-
-		publicarPedido.publicarPedido(ordem);*/
 
 		return ResponseEntity.status(HttpStatus.CREATED).build();
 

@@ -1,6 +1,5 @@
 package wg.mscontrole.resources;
 
-import java.net.ConnectException;
 import java.util.List;
 
 import org.springframework.http.ResponseEntity;
@@ -17,7 +16,6 @@ import wg.mscontrole.domain.ControllerPedido;
 import wg.mscontrole.domain.PedidoLiberadoParaProcesso;
 import wg.mscontrole.publications.OrdemPedidoPublish;
 import wg.mscontrole.services.ControllerService;
-import wg.mscontrole.services.exceptions.ErroComunicacaoMicroservicoException;
 import wg.mscontrole.services.exceptions.ResourceNotFoundException;
 
 @RestController
@@ -27,7 +25,6 @@ public class ControllerPedidoResource {
 
 	private final ControllerService controllerService;
 	private final OrdemPedidoPublish publicarPedido;
-	
 
 	@GetMapping
 	public ResponseEntity<List<ControllerPedido>> findAll() {
@@ -38,24 +35,27 @@ public class ControllerPedidoResource {
 	}
 
 	@GetMapping(params = "nameproduto")
-	public ResponseEntity<String> verificarProduto(@RequestParam("nameproduto") String nameproduto) throws JsonProcessingException, ConnectException{
-		PedidoLiberadoParaProcesso pedidosLiberado = controllerService.verificarProduto(nameproduto);
-		
-		if(pedidosLiberado == null) {
+	public ResponseEntity<String> verificarProduto(@RequestParam("nameproduto") String nameproduto)
+			throws JsonProcessingException {
+
+		PedidoLiberadoParaProcesso pedidoLiberado = controllerService.verificarProduto(nameproduto);
+
+		if (pedidoLiberado == null) {
 			throw new ResourceNotFoundException(nameproduto);
 		}
-		publicarPedido.publicarOrdemPedido(pedidosLiberado);
+
+		publicarPedido.publicarOrdemPedido(pedidoLiberado);
 
 		return ResponseEntity.ok().body("Enviado");
 	}
-	
+
 	@DeleteMapping(params = "idpedido")
-	public ResponseEntity<Void> deletarPedidoById(@RequestParam("idpedido") Long idpedido){
-		
+	public ResponseEntity<Void> deletarPedidoById(@RequestParam("idpedido") Long idpedido) {
+
 		controllerService.deleteByIdPedido(idpedido);
-		
+
 		return ResponseEntity.noContent().build();
-		
+
 	}
 
 }

@@ -8,32 +8,34 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 
 import lombok.RequiredArgsConstructor;
 import wg.mscontrole.config.RabbitMQConfig;
-import wg.mscontrole.domain.OrdemPedido;
 import wg.mscontrole.domain.PedidoLiberadoParaProcesso;
+import wg.mscontrole.services.exceptions.ErroComunicacaoMicroservicoException;
 
 @Component
 @RequiredArgsConstructor
 public class OrdemPedidoPublish {
-	
+
 	private final RabbitTemplate rabbitTemplate;
-	
-	
+
 	public void publicarOrdemPedido(PedidoLiberadoParaProcesso ordemPedido) throws JsonProcessingException {
-		
-		var json = convertParaJson(ordemPedido);
-		
-		rabbitTemplate.convertAndSend(RabbitMQConfig.EXG_NAME_PRODUCAO,RabbitMQConfig.RK_ROUTING_KEY_ORDEM_PEDIDO,json);
-		
-		
-		
-	}
+        
+		try {
+			var json = convertParaJson(ordemPedido);
 	
+			rabbitTemplate.convertAndSend(RabbitMQConfig.EXG_NAME_PRODUCAO, RabbitMQConfig.RK_ROUTING_KEY_ORDEM_PEDIDO,json);
+			
+		}catch(Exception e) {
+			throw new ErroComunicacaoMicroservicoException(e.getMessage());
+		}
+
+	}
+
 	public String convertParaJson(PedidoLiberadoParaProcesso ordemPedido) throws JsonProcessingException {
-		
+
 		var objectMapper = new ObjectMapper();
-		
+
 		String json = objectMapper.writeValueAsString(ordemPedido);
-		
+
 		return json;
 	}
 

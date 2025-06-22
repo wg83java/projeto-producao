@@ -1,6 +1,5 @@
 package wg.mscontrole.resources.exceptions;
 
-import java.net.ConnectException;
 import java.time.Instant;
 
 import org.springframework.http.HttpStatus;
@@ -46,8 +45,8 @@ public class ResourceExceptionHandler {
 		return ResponseEntity.status(status).body(err);
 	}
 	
-	@ExceptionHandler(ConnectException.class)
-	public ResponseEntity<StandarError> erroComunicacaoMicroservico(ConnectException e,HttpServletRequest  request){
+	@ExceptionHandler(ErroComunicacaoMicroservicoException.class)
+	public ResponseEntity<StandarError> erroComunicacaoMicroservico(ErroComunicacaoMicroservicoException e,HttpServletRequest  request){
 		
 		String error = "Servico indisponivel temporariamente";
 		HttpStatus status = HttpStatus.SERVICE_UNAVAILABLE;

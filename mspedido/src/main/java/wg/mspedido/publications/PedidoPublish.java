@@ -8,6 +8,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 
 import lombok.RequiredArgsConstructor;
 import wg.mspedido.domain.OrdemPedido;
+import wg.mspedido.services.exceptions.ErroComunicacaoMicroservicoException;
 
 @Component
 @RequiredArgsConstructor
@@ -18,9 +19,14 @@ public class PedidoPublish {
 	
 	public void publicarPedido(OrdemPedido ordemPedido) throws JsonProcessingException {
 		
-		var json = converteParaJson(ordemPedido);
-		rabbitTemplate.convertAndSend(wg.mspedido.config.RabbitMQConfig.EXG_NAME_MARKETPLACE,wg.mspedido.config.RabbitMQConfig.RK_PRODUCT_LOG,json);
-		
+			try {
+				
+			var json = converteParaJson(ordemPedido);
+			rabbitTemplate.convertAndSend(wg.mspedido.config.RabbitMQConfig.EXG_NAME_MARKETPLACE,wg.mspedido.config.RabbitMQConfig.RK_PRODUCT_LOG,json);
+			
+			}catch(Exception e) {
+				throw new ErroComunicacaoMicroservicoException(e.getMessage());
+			}
 	}
 	
 	public String converteParaJson(OrdemPedido ordemPedido) throws JsonProcessingException {

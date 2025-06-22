@@ -36,10 +36,7 @@ public class BuncherConsume {
 						
 			
 			ordemService.saveOrdemProcessoProducao(cb);
-			
-			
-			
-			
+					
 		
 		}catch (Exception e) {
 			e.printStackTrace();

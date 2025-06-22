@@ -59,11 +59,6 @@ public class PedidoService {
 			e.printStackTrace();
 			throw new ResourceNotFoundException(pedido.getIdproduto());
 
-		
-		}catch(Exception e) {
-			
-			throw new ErroComunicacaoMicroservicoException("Erro comunicacao Microservico: "+e.getMessage());
-
 		}
 		
 		return pedido;
