@@ -1,0 +1,89 @@
+package wg.mscontrole.services;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Optional;
+
+import org.springframework.stereotype.Service;
+
+import com.fasterxml.jackson.core.JsonProcessingException;
+
+import lombok.RequiredArgsConstructor;
+import wg.mscontrole.domain.ControllerPedido;
+import wg.mscontrole.domain.PedidoLiberadoParaProcesso;
+import wg.mscontrole.publications.OrdemPedidoPublish;
+import wg.mscontrole.repositories.ControllerPedidoRepository;
+import wg.mscontrole.services.exceptions.ResourceNotFoundException;
+
+@Service
+@RequiredArgsConstructor
+public class ControllerService {
+
+	private final ControllerPedidoRepository controllerRepository;
+	private final OrdemPedidoPublish publicar;
+
+	public ControllerPedido saveController(ControllerPedido pedido) {
+
+		return controllerRepository.save(pedido);
+	}
+
+	public List<ControllerPedido> findAll() {
+
+		return controllerRepository.findAll();
+	}
+
+	public List<ControllerPedido> findByNameProduto(String name) {
+
+		return controllerRepository.findByName(name);
+	}
+
+	public void deleteById(Long id) {
+
+		controllerRepository.deleteById(id);
+	}
+
+	public PedidoLiberadoParaProcesso verificarProduto(String nameproduto) throws JsonProcessingException {
+		
+		try {
+			Integer maxQuantidade = 0;
+            
+           var liberado = new PedidoLiberadoParaProcesso();
+           
+		   List<ControllerPedido> pedidos = findByNameProduto(nameproduto);
+		   
+			List<Long> idpedidos = new ArrayList<>();
+			List<Long> idcontroller = new ArrayList<>();
+
+			for (ControllerPedido p : pedidos) {
+				maxQuantidade += p.getQuantidade();
+				idpedidos.add(p.getIdpedido());
+				idcontroller.add(p.getId());
+			}
+
+			if (maxQuantidade >= 1000) {
+				liberado.setIdpedido(idpedidos);
+				liberado.setName(nameproduto);
+				liberado.setQuantidade(maxQuantidade);
+                
+				for (Long id : idcontroller) {
+					deleteById(id);
+				}
+				return liberado;
+				
+				
+			}
+			
+			throw new IllegalArgumentException("Quantidade de pedidos insuficiente");
+			
+
+			}catch(ResourceNotFoundException e){
+				e.printStackTrace();
+				
+			}
+		return ;
+
+	
+
+}
+
+}

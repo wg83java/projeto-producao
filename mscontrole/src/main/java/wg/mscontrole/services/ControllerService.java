@@ -4,10 +4,13 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
+import javax.sound.midi.ControllerEventListener;
+
 import org.springframework.stereotype.Service;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import wg.mscontrole.domain.ControllerPedido;
 import wg.mscontrole.domain.PedidoLiberadoParaProcesso;
@@ -20,7 +23,6 @@ import wg.mscontrole.services.exceptions.ResourceNotFoundException;
 public class ControllerService {
 
 	private final ControllerPedidoRepository controllerRepository;
-	private final OrdemPedidoPublish publicar;
 
 	public ControllerPedido saveController(ControllerPedido pedido) {
 
@@ -33,23 +35,25 @@ public class ControllerService {
 	}
 
 	public List<ControllerPedido> findByNameProduto(String name) {
-
+		
 		return controllerRepository.findByName(name);
+		
+		
+		}
+	
+    @Transactional
+	public void deleteByIdPedido(Long id) {
+
+		controllerRepository.deleteByIdPedido(id);
 	}
 
-	public void deleteById(Long id) {
-
-		controllerRepository.deleteById(id);
-	}
-
-	public List<ControllerPedido> verificarProduto(String nameproduto) throws JsonProcessingException {
+	public PedidoLiberadoParaProcesso verificarProduto(String nameproduto) throws JsonProcessingException {
 		
 		try {
 			Integer maxQuantidade = 0;
-
-
+           
 		   List<ControllerPedido> pedidos = findByNameProduto(nameproduto);
-		   
+		  
 			List<Long> idpedidos = new ArrayList<>();
 			List<Long> idcontroller = new ArrayList<>();
 
@@ -60,20 +64,24 @@ public class ControllerService {
 			}
 
 			if (maxQuantidade >= 1000) {
-				PedidoLiberadoParaProcesso liberado = new PedidoLiberadoParaProcesso(idpedidos,nameproduto, maxQuantidade);
-
-				publicar.publicarOrdemPedido(liberado);
-
+				PedidoLiberadoParaProcesso pedidoLiberado = 
+						new PedidoLiberadoParaProcesso(idpedidos, nameproduto, maxQuantidade);
+				
+                
 				for (Long id : idcontroller) {
-					deleteById(id);
+					controllerRepository.deleteById(id);
 				}
-		
+				
+				return pedidoLiberado;
+					
+			}if(maxQuantidade > 0) {
+				throw new IllegalArgumentException("Quantidade insuficiente");				
 			}
-			return pedidos;
+						
 
 			}catch(ResourceNotFoundException e){
 				e.printStackTrace();
-				
+							
 			}
 		return null;
 

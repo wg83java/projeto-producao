@@ -1,8 +1,10 @@
 package wg.mscontrole.resources;
 
+import java.net.ConnectException;
 import java.util.List;
 
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -12,36 +14,48 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 
 import lombok.RequiredArgsConstructor;
 import wg.mscontrole.domain.ControllerPedido;
+import wg.mscontrole.domain.PedidoLiberadoParaProcesso;
+import wg.mscontrole.publications.OrdemPedidoPublish;
 import wg.mscontrole.services.ControllerService;
+import wg.mscontrole.services.exceptions.ErroComunicacaoMicroservicoException;
 import wg.mscontrole.services.exceptions.ResourceNotFoundException;
 
 @RestController
 @RequiredArgsConstructor
 @RequestMapping(value = "/controllers")
 public class ControllerPedidoResource {
-	
-	private final ControllerService controllerService;
 
+	private final ControllerService controllerService;
+	private final OrdemPedidoPublish publicarPedido;
 	
+
 	@GetMapping
-	public ResponseEntity<List<ControllerPedido>> findAll(){
-		
+	public ResponseEntity<List<ControllerPedido>> findAll() {
+
 		List<ControllerPedido> pedidos = controllerService.findAll();
-		
+
 		return ResponseEntity.ok(pedidos);
 	}
-	
+
 	@GetMapping(params = "nameproduto")
-	public ResponseEntity<String> verificarProduto(@RequestParam("nameproduto") String nameproduto ) throws JsonProcessingException{
+	public ResponseEntity<String> verificarProduto(@RequestParam("nameproduto") String nameproduto) throws JsonProcessingException, ConnectException{
+		PedidoLiberadoParaProcesso pedidosLiberado = controllerService.verificarProduto(nameproduto);
 		
-	    List<ControllerPedido> pedidos = controllerService.verificarProduto(nameproduto);
-	    
-	    if(pedidos.isEmpty()) {
-	    	throw new ResourceNotFoundException(nameproduto);
-	    }
-		
+		if(pedidosLiberado == null) {
+			throw new ResourceNotFoundException(nameproduto);
+		}
+		publicarPedido.publicarOrdemPedido(pedidosLiberado);
+
 		return ResponseEntity.ok().body("Enviado");
 	}
 	
+	@DeleteMapping(params = "idpedido")
+	public ResponseEntity<Void> deletarPedidoById(@RequestParam("idpedido") Long idpedido){
+		
+		controllerService.deleteByIdPedido(idpedido);
+		
+		return ResponseEntity.noContent().build();
+		
+	}
 
 }
