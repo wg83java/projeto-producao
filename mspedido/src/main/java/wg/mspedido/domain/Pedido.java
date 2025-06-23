@@ -24,14 +24,14 @@ public class Pedido implements Serializable{
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
-	@JoinColumn(name = "id_produto")
-	private Long idproduto;
+	//@JoinColumn(name = "id_produto")
+	private String nameproduto;
 	private LocalDate data;
 	private String cor;
 	private Integer quantidade;
 	
-	public Pedido(Long idproduto,String cor,Integer quantidade) {
-		this.idproduto = idproduto;
+	public Pedido(String nameproduto,String cor,Integer quantidade) {
+		this.nameproduto = nameproduto;
 		this.data = LocalDate.now();
 		this.cor = cor;
 		this.quantidade = quantidade;

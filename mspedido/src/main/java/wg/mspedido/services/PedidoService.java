@@ -12,7 +12,6 @@ import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import wg.mspedido.domain.OrdemPedido;
 import wg.mspedido.domain.Pedido;
-import wg.mspedido.domain.Produto;
 import wg.mspedido.publications.PedidoPublish;
 import wg.mspedido.repositories.PedidoRepository;
 import wg.mspedido.services.exceptions.ErroComunicacaoMicroservicoException;
@@ -23,7 +22,6 @@ import wg.mspedido.services.exceptions.ResourceNotFoundException;
 public class PedidoService {
 	
 	private final PedidoRepository pedidoRepository;
-	private final ProdutoService produtoService;
 	private final PedidoPublish publicarPedido;
 	
 	
@@ -44,20 +42,20 @@ public class PedidoService {
 		try {
 			
 			pedidoRepository.save(pedido);
-			
-			Produto produto = produtoService.findByIdProduto(pedido.getIdproduto());
+
 
 			var ordem = new OrdemPedido();
 			ordem.setIdpedido(pedido.getId());
-			ordem.setProduto(produto.getName());
+			ordem.setNameproduto(pedido.getNameproduto());
 			ordem.setQuantidade(pedido.getQuantidade());
 
 			publicarPedido.publicarPedido(ordem);
 			
 			
-		}catch(ResourceNotFoundException e) {
+		}catch(Exception e) {
 			e.printStackTrace();
-			throw new ResourceNotFoundException(pedido.getIdproduto());
+			throw new ErroComunicacaoMicroservicoException(e.getMessage());
+			
 
 		}
 		
@@ -92,7 +90,7 @@ public class PedidoService {
 	}
 	
 	private void alteraDados(Pedido entity,Pedido obj) {
-		entity.setIdproduto(obj.getIdproduto());
+		entity.setNameproduto(obj.getNameproduto());
 		entity.setCor(obj.getCor());
 		entity.setQuantidade(obj.getQuantidade());
 	}

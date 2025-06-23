@@ -1,12 +1,12 @@
 package wg.mscontrole.repositories;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
-import org.springframework.web.bind.annotation.RequestParam;
 
 import wg.mscontrole.domain.ControllerPedido;
 
@@ -17,5 +17,8 @@ public interface ControllerPedidoRepository extends JpaRepository<ControllerPedi
 	@Modifying
 	@Query("DELETE FROM ControllerPedido e WHERE e.idpedido = :idpedido")
 	void deleteByIdPedido(@Param("idpedido") Long idpedido);
+	
+	@Query("SELECT i FROM ControllerPedido i WHERE i.idpedido = :idpedido")
+	Optional<ControllerPedido> findByIdPedido(Long idpedido);
 
 }

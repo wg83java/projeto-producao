@@ -24,7 +24,6 @@ import wg.mscontrole.services.exceptions.ResourceNotFoundException;
 public class ControllerPedidoResource {
 
 	private final ControllerService controllerService;
-	private final OrdemPedidoPublish publicarPedido;
 
 	@GetMapping
 	public ResponseEntity<List<ControllerPedido>> findAll() {
@@ -44,9 +43,16 @@ public class ControllerPedidoResource {
 			throw new ResourceNotFoundException(nameproduto);
 		}
 
-		publicarPedido.publicarOrdemPedido(pedidoLiberado);
-
 		return ResponseEntity.ok().body("Enviado");
+	}
+	
+	@GetMapping(params = "idpedido")
+	public ResponseEntity<ControllerPedido> findByIdPedido(@RequestParam("idpedido") Long idpedido){
+		
+		ControllerPedido pedido = controllerService.findByIdPedido(idpedido);
+		
+		return ResponseEntity.ok().body(pedido);
+		
 	}
 
 	@DeleteMapping(params = "idpedido")

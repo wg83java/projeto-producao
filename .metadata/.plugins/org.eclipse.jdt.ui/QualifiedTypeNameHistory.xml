@@ -9,7 +9,6 @@
     <fullyQualifiedTypeName name="wg.mspedido.services.exceptions.DataBaseException"/>
     <fullyQualifiedTypeName name="org.hibernate.ResourceClosedException"/>
     <fullyQualifiedTypeName name="java.util.stream.Stream"/>
-    <fullyQualifiedTypeName name="java.util.Optional"/>
     <fullyQualifiedTypeName name="jakarta.websocket.server.PathParam"/>
     <fullyQualifiedTypeName name="org.springframework.web.bind.annotation.PathVariable"/>
     <fullyQualifiedTypeName name="org.springframework.web.bind.annotation.RequestBody"/>
@@ -20,11 +19,8 @@
     <fullyQualifiedTypeName name="wg.mspedido.services.exceptions.ResourceNotFoundException"/>
     <fullyQualifiedTypeName name="org.springframework.beans.factory.annotation.Autowired"/>
     <fullyQualifiedTypeName name="javax.sound.midi.ControllerEventListener"/>
-    <fullyQualifiedTypeName name="wg.mscontrole.publications.OrdemPedidoPublish"/>
-    <fullyQualifiedTypeName name="org.springframework.data.jpa.repository.Query"/>
     <fullyQualifiedTypeName name="org.springframework.data.repository.query.Param"/>
     <fullyQualifiedTypeName name="org.springframework.data.jpa.repository.Modifying"/>
-    <fullyQualifiedTypeName name="jakarta.transaction.Transactional"/>
     <fullyQualifiedTypeName name="wg.mscontrole.resources.exceptions.StandarError"/>
     <fullyQualifiedTypeName name="jakarta.persistence.EntityNotFoundException"/>
     <fullyQualifiedTypeName name="wg.mscontrole.domain.ControllerPedido"/>
@@ -34,8 +30,6 @@
     <fullyQualifiedTypeName name="java.net.ConnectException"/>
     <fullyQualifiedTypeName name="wg.mscontrole.services.exceptions.ErroComunicacaoMicroservicoException"/>
     <fullyQualifiedTypeName name="java.lang.Exception"/>
-    <fullyQualifiedTypeName name="wg.mspedido.services.exceptions.ErroComunicacaoMicroservicoException"/>
-    <fullyQualifiedTypeName name="wg.mscontrole.services.exceptions.ResourceNotFoundException"/>
     <fullyQualifiedTypeName name="org.springframework.http.ResponseEntity"/>
     <fullyQualifiedTypeName name="java.time.LocalDate"/>
     <fullyQualifiedTypeName name="wg.msbuncher.services.exceptions.ResourceNotFoundException"/>
@@ -57,7 +51,13 @@
     <fullyQualifiedTypeName name="wg.mstorcedeira.domain.OrdemProcessoProducao"/>
     <fullyQualifiedTypeName name="java.util.List"/>
     <fullyQualifiedTypeName name="wg.mstorcedeira.services.exceptions.ResourceNotFoundException"/>
-    <fullyQualifiedTypeName name="org.springframework.web.bind.annotation.GetMapping"/>
     <fullyQualifiedTypeName name="org.springframework.web.bind.annotation.DeleteMapping"/>
+    <fullyQualifiedTypeName name="wg.mspedido.services.exceptions.ErroComunicacaoMicroservicoException"/>
+    <fullyQualifiedTypeName name="wg.mscontrole.publications.OrdemPedidoPublish"/>
+    <fullyQualifiedTypeName name="jakarta.transaction.Transactional"/>
+    <fullyQualifiedTypeName name="org.springframework.web.bind.annotation.GetMapping"/>
     <fullyQualifiedTypeName name="org.springframework.web.bind.annotation.RequestParam"/>
+    <fullyQualifiedTypeName name="wg.mscontrole.services.exceptions.ResourceNotFoundException"/>
+    <fullyQualifiedTypeName name="java.util.Optional"/>
+    <fullyQualifiedTypeName name="org.springframework.data.jpa.repository.Query"/>
 </qualifiedTypeNameHistroy>

@@ -36,7 +36,7 @@ public class PedidoConsumer {
 			
 			ControllerPedido controllerPedido = new ControllerPedido();
 			controllerPedido.setIdpedido(ordempedido.getIdpedido());
-			controllerPedido.setName(ordempedido.getProduto());
+			controllerPedido.setName(ordempedido.getNameproduto());
 			controllerPedido.setQuantidade(ordempedido.getQuantidade());
 			
 			controllerService.saveController(controllerPedido);				

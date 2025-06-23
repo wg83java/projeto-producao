@@ -2,13 +2,17 @@ package wg.mscontrole.services;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.stereotype.Service;
+
+import com.fasterxml.jackson.core.JsonProcessingException;
 
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import wg.mscontrole.domain.ControllerPedido;
 import wg.mscontrole.domain.PedidoLiberadoParaProcesso;
+import wg.mscontrole.publications.OrdemPedidoPublish;
 import wg.mscontrole.repositories.ControllerPedidoRepository;
 import wg.mscontrole.services.exceptions.ResourceNotFoundException;
 
@@ -17,6 +21,7 @@ import wg.mscontrole.services.exceptions.ResourceNotFoundException;
 public class ControllerService {
 
 	private final ControllerPedidoRepository controllerRepository;
+	private final OrdemPedidoPublish publicarPedido;
 
 	public ControllerPedido saveController(ControllerPedido pedido) {
 
@@ -39,8 +44,9 @@ public class ControllerService {
 
 		controllerRepository.deleteByIdPedido(id);
 	}
-
-	public PedidoLiberadoParaProcesso verificarProduto(String nameproduto) {
+    
+	@Transactional
+	public PedidoLiberadoParaProcesso verificarProduto(String nameproduto) throws JsonProcessingException {
 
 		try {
 
@@ -60,6 +66,8 @@ public class ControllerService {
 			if (maxQuantidade >= 1000) {
 				PedidoLiberadoParaProcesso pedidoLiberado = new PedidoLiberadoParaProcesso(idpedidos, nameproduto,
 						maxQuantidade);
+				
+				publicarPedido.publicarOrdemPedido(pedidoLiberado);
 
 				for (Long id : idcontroller) {
 					controllerRepository.deleteById(id);
@@ -78,5 +86,13 @@ public class ControllerService {
 
 		return null;
 
+	}
+
+	public ControllerPedido findByIdPedido(Long idpedido) {
+		
+		Optional<ControllerPedido> pedido = controllerRepository.findByIdPedido(idpedido);
+			
+		
+		return pedido.orElseThrow(()-> new ResourceNotFoundException(idpedido));
 	}
 }

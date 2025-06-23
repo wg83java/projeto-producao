@@ -10,7 +10,7 @@ import lombok.NoArgsConstructor;
 public class OrdemPedido {
 	
 	private Long idpedido;
-	private String produto;
+	private String nameproduto;
 	private Integer quantidade;
 	
 

@@ -17,12 +17,8 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 
 import lombok.RequiredArgsConstructor;
 import wg.mspedido.domain.Pedido;
-import wg.mspedido.domain.Produto;
 import wg.mspedido.dtos.PedidoDto;
-import wg.mspedido.dtos.ProdutoDto;
-import wg.mspedido.publications.PedidoPublish;
 import wg.mspedido.services.PedidoService;
-import wg.mspedido.services.ProdutoService;
 
 @RestController
 @RequiredArgsConstructor
@@ -30,8 +26,7 @@ import wg.mspedido.services.ProdutoService;
 public class PedidoResource {
 
 	private final PedidoService pedidoService;
-	private final ProdutoService produtoService;
-	private final PedidoPublish publicarPedido;
+	
 
 	@GetMapping
 	public String status() {
@@ -75,57 +70,13 @@ public class PedidoResource {
 	}
 
 	@PutMapping(params = "idpedido")
-	public ResponseEntity<Pedido> alteraPedido(@RequestParam("idpedido") Long idpedido, @RequestBody PedidoDto pedidoDto) {
+	public ResponseEntity<PedidoDto> alteraPedido(@RequestParam("idpedido") Long idpedido, @RequestBody PedidoDto pedidoDto) {
 
 		Pedido pedido = pedidoDto.toModel();
 		pedidoService.alteraPedido(idpedido, pedido);
 
-		return ResponseEntity.ok().body(pedido);
+		return ResponseEntity.ok().body(pedidoDto);
 	}
 
-	// PRODUTOS
-
-	@PostMapping(value = "produtos")
-	public ResponseEntity saveProduto(@RequestBody ProdutoDto produtoDto) {
-
-		Produto produto = produtoDto.toModel();
-
-		produtoService.saveProduto(produto);
-
-		return ResponseEntity.status(HttpStatus.CREATED).build();
-	}
-
-	@GetMapping(value = "consultar-produtos")
-	public ResponseEntity<List<Produto>> consultarProduto() {
-
-		List<Produto> produtos = produtoService.findAll();
-
-		return ResponseEntity.ok(produtos);
-	}
-
-	@GetMapping(params = "idproduto")
-	public ResponseEntity<Produto> getByIdProduto(@RequestParam("idproduto") Long idproduto) {
-
-		Produto produto = produtoService.findByIdProduto(idproduto);
-
-		return ResponseEntity.ok(produto);
-	}
-
-	@DeleteMapping(params = "idproduto")
-	public ResponseEntity<Void> deletaProduto(@RequestParam("idproduto") Long idproduto) {
-
-		produtoService.deletarProduto(idproduto);
-
-		return ResponseEntity.noContent().build();
-	}
-	
-	@PutMapping(params = "idproduto")
-	public ResponseEntity<Produto> alteraProduto(@RequestParam("idproduto") Long idproduto,@RequestBody ProdutoDto produtoDto){
-		
-		Produto produto = produtoDto.toModel();
-		produtoService.alteraProduto(idproduto, produto);
-		
-		return ResponseEntity.ok().body(produto);
-	}
 
 }

@@ -8,13 +8,13 @@ import wg.mspedido.domain.Pedido;
 @AllArgsConstructor
 public class PedidoDto {
 	
-	private Long idproduto;
+	private String nameproduto;;
 	private String cor;
 	private Integer quantidade;
 	
 	public Pedido toModel() {
 		
-		return new Pedido(idproduto,cor,quantidade);
+		return new Pedido(nameproduto,cor,quantidade);
 	}
 	
 	
