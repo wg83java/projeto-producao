@@ -10,13 +10,13 @@ import lombok.RequiredArgsConstructor;
 import wg.msbuncher.domain.CBAbstract;
 import wg.msbuncher.domain.OrdemProcessoProducao;
 import wg.msbuncher.repositories.OrdemProcessoProducaoRepository;
+import wg.msbuncher.services.exceptions.ResourceNotFoundException;
 
 @Service
 @RequiredArgsConstructor
 public class OrdemProcessoProducaoService {
 	
 	private final OrdemProcessoProducaoRepository ordemRepository;
-	private LocalDate data;
 	
 	@Transactional
 	public OrdemProcessoProducao saveOrdemProcessoProducao(CBAbstract cb) {
@@ -36,7 +36,7 @@ public class OrdemProcessoProducaoService {
 		ordem.setQuantidadeBobina(cb.getQuantidadeBobina());
 		ordem.setQuantidadeCarga(cb.getQuantidadeCarga());
 		ordem.setQuantidadeRestante(cb.getQuantidadeRestante());
-		ordem.setData(data.now());
+		ordem.setData(LocalDate.now());
 		
 		return ordemRepository.save(ordem);
 	}
@@ -44,6 +44,21 @@ public class OrdemProcessoProducaoService {
 	public List<OrdemProcessoProducao> findAll(){
 		
 		return ordemRepository.findAll();
+	}
+	
+	public void deleteOrdemById(Long idordem) {
+		
+		ordemRepository.deleteById(idordem);
+	}
+	
+	public List<OrdemProcessoProducao> findByData(LocalDate data){
+		
+		List<OrdemProcessoProducao> lista = ordemRepository.findByData(data);
+		
+		if(lista.isEmpty()) {
+			throw new ResourceNotFoundException(data.toString());
+		}
+		return lista;
 	}
 
 }

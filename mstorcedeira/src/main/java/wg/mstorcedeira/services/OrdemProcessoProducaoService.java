@@ -10,6 +10,7 @@ import lombok.RequiredArgsConstructor;
 import wg.mstorcedeira.domain.CBAbstract;
 import wg.mstorcedeira.domain.OrdemProcessoProducao;
 import wg.mstorcedeira.repositories.OrdemProcessoProducaoRepository;
+import wg.mstorcedeira.services.exceptions.ResourceNotFoundException;
 
 @Service
 @RequiredArgsConstructor
@@ -45,6 +46,22 @@ public class OrdemProcessoProducaoService {
 		ordem.setData(data.now());
 		
 		return ordemRepository.save(ordem);
+	}
+
+	public List<OrdemProcessoProducao> findByData(LocalDate dataConverte) {
+		
+		List<OrdemProcessoProducao> ordens = ordemRepository.findByData(dataConverte);
+		
+		if(ordens.isEmpty()) {
+			
+			throw new ResourceNotFoundException();
+		}
+		return ordens;
+	}
+	
+	public void deletarOrdemById(Long idordem) {
+		
+		ordemRepository.deleteById(idordem);
 	}
 
 }

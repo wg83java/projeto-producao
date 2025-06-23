@@ -1,10 +1,13 @@
 package wg.msbuncher.resources;
 
+import java.time.LocalDate;
 import java.util.List;
 
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import lombok.RequiredArgsConstructor;
@@ -24,6 +27,23 @@ public class OrdemProcessoProducaoResource {
 		List<OrdemProcessoProducao> ordems = ordemService.findAll();
 		
 		return ResponseEntity.ok(ordems);
+	}
+	
+	@DeleteMapping(params = "idordem")
+	public ResponseEntity<Void> deleteOrdemById(@RequestParam("idordem") Long idordem){
+		
+		ordemService.deleteOrdemById(idordem);
+		
+		return ResponseEntity.noContent().build();
+	}
+	
+	@GetMapping(params = "data")
+	public ResponseEntity<List<OrdemProcessoProducao>> findByData(@RequestParam("data") String data){
+		
+		LocalDate dataConvertida = LocalDate.parse(data);
+		List<OrdemProcessoProducao> ordens = ordemService.findByData(dataConvertida);
+		
+		return ResponseEntity.ok().body(ordens);
 	}
 
 }

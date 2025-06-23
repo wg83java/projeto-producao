@@ -3,12 +3,16 @@ package wg.msextrusora.services;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
+import feign.FeignException;
 import lombok.RequiredArgsConstructor;
 import wg.msextrusora.domain.Pedido;
 import wg.msextrusora.repositories.PedidoFeign;
+import wg.msextrusora.services.exceptions.ErroComunicacaoMicroserviceException;
+import wg.msextrusora.services.exceptions.ResourceNotFoundException;
 
 @Service
 @RequiredArgsConstructor
@@ -18,9 +22,19 @@ public class PedidoService {
 
 	public Pedido obterPedido(Long id) {
 
-		ResponseEntity<Pedido> pedido = feign.findByIdPedido(id);
+		try{
+			ResponseEntity<Pedido> pedido = feign.findByIdPedido(id);
+	
 
-		return pedido.getBody();
+		   return pedido.getBody();
+		}catch(FeignException.FeignClientException e) {
+			int status = e.status();
+			
+			if(HttpStatus.NOT_FOUND.value() == status) {
+				throw new ResourceNotFoundException(id);
+			}
+			throw new ErroComunicacaoMicroserviceException(e.getMessage(), status);
+		}
 
 	}
 

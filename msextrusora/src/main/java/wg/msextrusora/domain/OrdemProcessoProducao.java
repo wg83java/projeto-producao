@@ -5,6 +5,7 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -35,7 +36,7 @@ public class OrdemProcessoProducao implements Serializable{
 	private LocalDate data;
 	
 	
-	@OneToMany (mappedBy = "ordem")
+	@OneToMany (mappedBy = "ordem",cascade = CascadeType.ALL)
 	private List<Pedido> pedidos = new ArrayList<>();
 	
 	public void addPedido(Pedido pedido) {

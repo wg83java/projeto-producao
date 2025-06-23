@@ -20,17 +20,18 @@ public class CB6mm extends CBAbstract{
 	private Integer quantidadeBobina;
 	private Integer quantidade;
 	private Integer quantidadeTotalPedido;
-	private Integer capacidadeMaxBobina = 8500;
+	private Integer capacidadeMaxBob = 8500;
 	private Integer quantidadeRestante;
 	
 	@Override
 	public void inserirQuantidadeTotalPedido(Integer quantidadePedido) {
 		
-		if(quantidadePedido > capacidadeMaxBobina) {
+		if(quantidadePedido > capacidadeMaxBob) {
 			
 			this.quantidadeTotalPedido = quantidadePedido;
-			this.quantidadeBobina = quantidadeTotalPedido / capacidadeMaxBobina;
-			this.quantidade = capacidadeMaxBobina;
+			this.quantidadeBobina = quantidadeTotalPedido / capacidadeMaxBob;
+			this.quantidade = capacidadeMaxBob;
+			this.quantidadeRestante = quantidadeBobina * capacidadeMaxBob - quantidadeTotalPedido;
 		}else {
 			this.quantidadeBobina = 1;
 			this.quantidadeTotalPedido = quantidadePedido;
