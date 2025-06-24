@@ -8,6 +8,12 @@ spring:
         locator:
           lower-case-service-id: true
           
+  security:
+    oauth2:
+      resourceserver:
+        jwt:
+          issuer-uri: http://${KEYCLOAK_SERVER}:${KEYCLOAK_PORT}/realms/msproducaorealm
+          
           
 server:
   port: 8080
@@ -18,4 +24,4 @@ eureka:
     fetch-registry: true
     register-with-eureka: true
     service-url:
-      defaultZone: http://login:senha@localhost:8761/eureka
+      defaultZone: http://login:senha@${EUREKA_SERVER}:8761/eureka

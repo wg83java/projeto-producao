@@ -3,7 +3,7 @@ spring:
     name: mscontroller
     
   rabbitmq:
-    host: localhost
+    host: ${RABBITMQ_SERVER}
     port: 5672
     username: guest
     password: guest
@@ -31,7 +31,7 @@ server:
 eureka:
   client:
     service-url:
-      defaultZone: http://login:senha@localhost:8761/eureka
+      defaultZone: http://login:senha@${EUREKA_SERVER}:8761/eureka
       
   instance:
     instance-id: ${spring.application.name}:${spring.application.instance_id:${random.value}}
