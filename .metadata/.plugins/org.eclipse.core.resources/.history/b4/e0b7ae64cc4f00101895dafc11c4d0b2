@@ -1,5 +1,0 @@
-package wg.msextrusora.services.exceptions;
-
-public class ErroComunicacaoMicroserviceException {
-
-}

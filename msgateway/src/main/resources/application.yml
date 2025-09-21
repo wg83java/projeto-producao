@@ -8,11 +8,11 @@ spring:
         locator:
           lower-case-service-id: true
           
-  security:
-    oauth2:
-      resourceserver:
-        jwt:
-          issuer-uri: http://${KEYCLOAK_SERVER}:${KEYCLOAK_PORT}/realms/msproducaorealm
+  #security:
+   # oauth2:
+    #  resourceserver:
+     #   jwt:
+      #    issuer-uri: http://${KEYCLOAK_SERVER}:${KEYCLOAK_PORT}/realms/msproducaorealm
           
           
 server:

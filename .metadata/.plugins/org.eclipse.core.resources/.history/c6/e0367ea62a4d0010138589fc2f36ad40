@@ -1,5 +1,0 @@
-package wg.mspedido.resources.exceptions;
-
-public class StandarError {
-
-}

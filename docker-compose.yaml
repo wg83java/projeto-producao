@@ -1,0 +1,116 @@
+services:
+  rabbitmq:
+    image: rabbitmq:3.9-management
+    container_name: test-rabbitmq
+    ports:
+      - 15672:15672
+    restart: always
+    networks:
+      - rede-teste
+      
+  #keycloak:
+    #image: quay.io/keycloak/keycloak:18.0.0
+    #command:
+     # - start-dev
+   # container_name: test-keycloak
+    #ports:
+     # - 8081:8080
+    #environment:
+      #KEYCLOAK_ADMIN: admin
+      #KEYCLOAK_ADMIN_PASSWORD: admin
+    #networks:
+      #- rede-teste
+            
+  eurekaserver:
+    build: ./eurekaserver
+    image: test-eurekaserver
+    container_name: test-eurekaserver
+    ports:
+      - 8761:8761
+    restart: always
+    networks:
+      - rede-teste
+      
+  mspedido:
+    build: ./mspedido
+    image: test-mspedido
+    container_name: test-mspedido
+    environment:
+      EUREKA_SERVER: test-eurekaserver
+      RABBITMQ_SERVER: test-rabbitmq     
+    depends_on:
+      - eurekaserver
+    restart: always
+    networks:
+      - rede-teste
+      
+  msgateway:
+    build: ./msgateway
+    image: test-gateway
+    container_name: test-gateway
+    ports:
+      - 8080:8080
+    environment:
+      EUREKA_SERVER: test-eurekaserver
+    depends_on:
+      - mspedido
+    restart: always
+    networks:
+      - rede-teste
+      
+  msbuncher:
+    build: ./msbuncher
+    image: test-msbuncher
+    container_name: test-msbuncher
+    environment:
+      EUREKA_SERVER: test-eurekaserver
+      RABBITMQ_SERVER: test-rabbitmq
+    restart: always
+    depends_on:
+      - eurekaserver
+    networks:
+      - rede-teste
+      
+  mscontroller:
+    build: ./mscontroller
+    image: test-mscontroller
+    container_name: test-controller
+    environment:
+      EUREKA_SERVER: test-eurekaserver
+      RABBITMQ_SERVER: test-rabbitmq
+    restart: always
+    depends_on:
+      - eurekaserver
+    networks:
+      - rede-teste
+      
+  mstorcedeira:
+    build: ./mstorcedeira
+    image: test-mstorcedeira
+    container_name: test-torcedeira
+    environment:
+      EUREKA_SERVER: test-eurekaserver
+      RABBITMQ_SERVER: test-rabbitmq
+    restart: always
+    depends_on:
+      - eurekaserver
+    networks:
+      - rede-teste
+      
+  msextrusora:
+    build: ./msextrusora
+    image: test-msextrusora
+    container_name: test-extrusora
+    environment:
+      EUREKA_SERVER: test-eurekaserver
+      RABBITMQ_SERVER: test-rabbitmq
+    restart: always
+    depends_on:
+      - eurekaserver
+    networks:
+      - rede-teste
+      
+  
+networks:
+    rede-teste:
+      driver: bridge

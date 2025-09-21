@@ -2,6 +2,9 @@
 <section name="Workbench">
 	<section name="MavenProjectImportWizardPage">
 		<list key="rootDirectory">
+			<item value="C:\workspace\producao\mstreinopedido"/>
+			<item value="C:\workspace\producao\treinomspedido"/>
+			<item value="C:\workspace\producao\mstreinoeurekaserver"/>
 			<item value="C:\workspace\producao\msextrusora"/>
 			<item value="C:\workspace\producao\mstorcedeira"/>
 			<item value="C:\workspace\producao\msbuncher"/>
